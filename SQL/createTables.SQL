@@ -1,0 +1,19 @@
+CREATE TABLE
+
+        USER (USER_ID int, NAME VARCHAR(128));
+
+
+
+
+
+CREATE TABLE
+   USER(
+        USER_ID    INT PRIMARY KEY,
+        NAME        VARCHAR(128) NOT NULL
+);
+
+CREATE TABLE
+    PAYMENTS(
+        NAME        VARCHAR(128) NOT NULL,
+        TRANSACTION_VALUE       INT
+    );

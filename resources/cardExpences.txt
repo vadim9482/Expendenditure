@@ -1,0 +1,29 @@
+4000,Clothes,28-Jun-19
+-17000,ATM,26-Jun-19
+10000,Bogdch,26-Jun-19
+-1000,ATM,28-Jun-19
+-5000,ATM,28-Jun-19
+1000,Dubch Debt,28-Jun-19
+1000,Dubch,28-Jun-19
+600,Dubch,28-Jun-19
+1000,Dubch,28-Jun-19
+1500,Guli,29-Jun-19
+-10000,ATM,30-Jun-19
+700,Ira HairCut,30-Jun-19
+700,Ira Lifchik,30-Jun-19
+180,Way to Cherk,1-Jul-19
+120,Taxi,1-Jul-19
+200,Valera,1-Jul-19
+-400,ATM,2-Jul-19
+-200,ATM,4-Jul-19
+200,Valera,4-Jul-19
+-2000,ATM,9-Jul-19
+2500,Installation,9-Jul-19
+-400,ATM,12-Jul-19
+-5000,ATM,13-Jul-19
+7000,Sea,14-Jul-19
+1600,Way to Berd,14-Jul-19
+140,Vahta,18-Jul-19
+8050,NZ,18-Jul-19
+96,Food,18-Jul-19
+324,Novus,19-Jul-19
