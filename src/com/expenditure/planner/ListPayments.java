@@ -34,6 +34,7 @@ public class ListPayments {
         for (Payment payment : payments) {
             stringBuilder.append(formatedView(payment.getName(), payment.getValue()) + SEPARATOR_LINE);
         }
+        stringBuilder.append(returnSum());
         return stringBuilder.toString();
     }
 

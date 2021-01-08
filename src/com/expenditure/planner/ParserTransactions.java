@@ -8,6 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import com.expenditure.planner.dataCenter.DataReader;
+
 import static com.expenditure.planner.Planner.DATE_FORMAT;
 
 public class ParserTransactions implements Parse<Transaction> {
@@ -15,7 +17,7 @@ public class ParserTransactions implements Parse<Transaction> {
     @Override
     public List<Transaction> parse(String inputString) {
         List<String[]> list = new LinkedList<String[]>();
-        list = new CSVReader().csvRead(inputString, ",");
+        list = new DataReader().csvToList(inputString, ",");
         List<Transaction> expenceList = new LinkedList<Transaction>();
         for (String[] expenceString : list) {
             Transaction transaction = parseTransaction(expenceString);

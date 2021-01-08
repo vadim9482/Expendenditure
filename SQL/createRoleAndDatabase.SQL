@@ -6,6 +6,6 @@ WITH
 SET ROLE
     expendenditureAdmin;
 CREATE DATABASE
-       transactions
+       expendenditure
 OWNER
      expendenditureAdmin;

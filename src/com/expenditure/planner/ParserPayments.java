@@ -3,13 +3,15 @@ package com.expenditure.planner;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.expenditure.planner.dataCenter.DataReader;
+
 public class ParserPayments implements Parse<Payment> {
 
     @Override
     public List<Payment> parse(String inputString) {
         List<Payment> outlist = new LinkedList<Payment>();
         List<String[]> list = new LinkedList<String[]>();
-        list = new CSVReader().csvRead(inputString, ",");
+        list = new DataReader().csvToList(inputString, ",");
         for (String[] line : list) {
             outlist.add(parsePayment(line));
         }
