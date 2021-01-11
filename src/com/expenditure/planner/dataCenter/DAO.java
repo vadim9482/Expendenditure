@@ -6,6 +6,7 @@ import com.expenditure.planner.ParserPayments;
 import com.expenditure.planner.ParserTransactions;
 import com.expenditure.planner.Payment;
 import com.expenditure.planner.Transaction;
+import com.expenditure.planner.User;
 
 public class DAO {
 
@@ -28,5 +29,12 @@ public class DAO {
         ParserTransactions parserTransactions = new ParserTransactions();
         listCash.addCash(parserTransactions.parse(expencesString));
         return listCash;
+    }
+
+    public void initUserDB(User user) {
+        JDBCPSQL jdbcpsql = new JDBCPSQL();
+        jdbcpsql.createUserPlansTable(user);
+        // jdbcpsql.createUserCashTable(user);
+        // jdbcpsql.createUserCardTable(user);
     }
 }
