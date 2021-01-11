@@ -34,7 +34,7 @@ public class DAO {
     public void initUserDB(User user) {
         JDBCPSQL jdbcpsql = new JDBCPSQL();
         jdbcpsql.createUserPlansTable(user);
-        // jdbcpsql.createUserCashTable(user);
-        // jdbcpsql.createUserCardTable(user);
+        jdbcpsql.createUserCashTable(user);
+        jdbcpsql.createUserCardTable(user);
     }
 }

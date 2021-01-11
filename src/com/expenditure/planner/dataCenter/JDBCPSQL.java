@@ -25,60 +25,38 @@ public class JDBCPSQL {
         String tableName = user.getName() + "_plans";
         String query = "CREATE TABLE " + tableName
                 + " (ID VARCHAR(36) NOT NULL, NAME VARCHAR(128) NOT NULL, VALUE INT);";
-        try {
-            Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
-            if (!existTable(connection, tableName)) {
-                Statement statement = connection.createStatement();
-                statement.executeUpdate(query);
-                System.out.println("Table " + tableName + " was created");
-            } else {
-                System.out.println("Table " + tableName + " already exist");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean existTable(Connection connection, String tableName) {
-        boolean flag = false;
-        try {
-            DatabaseMetaData databaseMetaData = connection.getMetaData();
-            ResultSet resultSet = databaseMetaData.getTables(null, null, tableName, null);
-            if (resultSet.next()) {
-                flag = true;
-            } else {
-                flag = false;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return flag;
+        createTable(tableName, query);
     }
 
     public void createUserCashTable(User user) {
-        String query = "CREATE TABLE " + user.getName()
-                + "_CASH (ID VARCHAR(128) NOT NULL, NAME VARCHAR(128) NOT NULL, VALUE INT, TRANSACTION_DATE DATE NOT NULL DEFAULT CURRENT_DATE);";
-        try {
-            Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println("Cash table for " + user.getName() + " was created");
+        String tableName = user.getName() + "_cash";
+        String query = "CREATE TABLE " + tableName
+                + " (ID VARCHAR(128) NOT NULL, NAME VARCHAR(128) NOT NULL, VALUE INT, TRANSACTION_DATE DATE NOT NULL DEFAULT CURRENT_DATE);";
+        createTable(tableName, query);
     }
 
     public void createUserCardTable(User user) {
-        String query = "CREATE TABLE " + user.getName()
-                + "_CARD (ID VARCHAR(128) NOT NULL, NAME VARCHAR(128) NOT NULL, VALUE INT, TRANSACTION_DATE DATE NOT NULL DEFAULT CURRENT_DATE);";
+        String tableName = user.getName() + "_card";
+        String query = "CREATE TABLE " + tableName
+                + " (ID VARCHAR(128) NOT NULL, NAME VARCHAR(128) NOT NULL, VALUE INT, TRANSACTION_DATE DATE NOT NULL DEFAULT CURRENT_DATE);";
+        createTable(tableName, query);
+    }
+
+    private void createTable(String tableName, String query) {
         try {
             Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(query);
+            DatabaseMetaData databaseMetaData = connection.getMetaData();
+            ResultSet resultSet = databaseMetaData.getTables(null, null, tableName, null);
+            if (resultSet.next()) {
+                System.out.println("Table " + tableName + " already exist");
+            } else {
+                Statement statement = connection.createStatement();
+                statement.executeUpdate(query);
+                System.out.println("Table " + tableName + " was created");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("Card table for " + user.getName() + " was created");
     }
 
     public void appendPlan(Payment payment) {
