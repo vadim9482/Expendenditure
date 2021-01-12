@@ -26,7 +26,7 @@ public class DataReader {
         }
         return output.toString();
     }
-    
+
     public List<String[]> csvToList(String inputString, String separator) {
         List<String[]> outList = new LinkedList<String[]>();
         for (String line : inputString.split(SEPARATOR_LINE)) {

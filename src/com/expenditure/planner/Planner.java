@@ -24,7 +24,7 @@ public class Planner {
         User user = new User(name, password);
         users.add(user);
         dao.initUserDB(user);
-        
+
     }
 
     public void importCSVPlan(String filePath) {
