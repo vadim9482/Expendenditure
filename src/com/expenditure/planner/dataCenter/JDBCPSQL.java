@@ -35,6 +35,9 @@ public class JDBCPSQL {
         createTable(tableName, query);
     }
 
+    
+    
+    
     public void createUserCardTable(User user) {
         String tableName = user.getName() + "_card";
         String query = "CREATE TABLE " + tableName
