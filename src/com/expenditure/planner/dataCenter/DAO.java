@@ -1,12 +1,14 @@
 package com.expenditure.planner.dataCenter;
 
 import com.expenditure.planner.ListTransaction;
-import com.expenditure.planner.ListPayments;
+
+import java.util.LinkedList;
+import java.util.List;
+
 import com.expenditure.planner.ParserPayments;
 import com.expenditure.planner.ParserTransactions;
 import com.expenditure.planner.Payment;
 import com.expenditure.planner.Transaction;
-import com.expenditure.planner.User;
 
 public class DAO {
 
@@ -15,26 +17,27 @@ public class DAO {
         return new Transaction(payment);
     }
 
-    public ListPayments importPaymentCsv(String filePath) {
-        ListPayments listPayments = new ListPayments();
-        String plansString = DataReader.read(filePath);
+    public List<Payment> importPaymentCsv(String resoursePath, String filename) {
+        List<Payment> listPayments = new LinkedList<>();
+        String plansString = DataReader.read(resoursePath, filename);
         ParserPayments parserPayments = new ParserPayments();
-        listPayments.addPayment(parserPayments.parse(plansString));
+        listPayments.addAll(parserPayments.parse(plansString));
         return listPayments;
     }
 
-    public ListTransaction importCashCsv(String filepath) {
+    public ListTransaction importCashCsv(String resoursePath, String filename) {
         ListTransaction listCash = new ListTransaction();
-        String expencesString = DataReader.read(filepath);
+        String expencesString = DataReader.read(resoursePath, filename);
         ParserTransactions parserTransactions = new ParserTransactions();
         listCash.addCash(parserTransactions.parse(expencesString));
         return listCash;
     }
 
-    public void initUserDB(User user) {
+    public void initUserDB(String ID, String name, String password) {
         JDBCPSQL jdbcpsql = new JDBCPSQL();
-        jdbcpsql.createUserPlansTable(user);
-        jdbcpsql.createUserCashTable(user);
-        jdbcpsql.createUserCardTable(user);
+        jdbcpsql.addUser(ID, name, password);
+        jdbcpsql.createUserPlansTable(name);
+        jdbcpsql.createUserCashTable(name);
+        jdbcpsql.createUserCardTable(name);
     }
 }

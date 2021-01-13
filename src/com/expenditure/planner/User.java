@@ -1,31 +1,36 @@
 package com.expenditure.planner;
 
+import java.util.List;
 import java.util.UUID;
 
 public class User {
     private UUID uuid;
     private String name;
     private String password;
-    private ListPayments listPlans;
-    private ListTransaction listCash;
-    private ListTransaction listCard;
+    private ListPayments plans;
+    private ListTransaction cash;
+    private ListTransaction card;
 
     User(String name, String password) {
         this.uuid = UUID.randomUUID();
         this.name = name;
         this.password = password;
-        listPlans = new ListPayments();
-        listCash = new ListTransaction();
-        listCard = new ListTransaction();
+        plans = new ListPayments();
+        cash = new ListTransaction();
+        card = new ListTransaction();
     }
 
     User(String ID, String name, String password) {
         this.uuid = UUID.fromString(ID);
         this.name = name;
         this.password = password;
-        listPlans = new ListPayments();
-        listCash = new ListTransaction();
-        listCard = new ListTransaction();
+        plans = new ListPayments();
+        cash = new ListTransaction();
+        card = new ListTransaction();
+    }
+
+    public void update() {
+        
     }
 
     public boolean checkPassword(String inputPass) {
@@ -41,15 +46,22 @@ public class User {
     }
 
     public ListPayments getListPlans() {
-        return listPlans;
+        return plans;
     }
 
     public ListTransaction getListCash() {
-        return listCash;
+        return cash;
     }
 
     public ListTransaction getListCard() {
-        return listCard;
+        return card;
     }
 
+    public void addPlan(Payment payment) {
+        plans.addPayment(payment);
+    }
+
+    public void addPlan(List<Payment> listPayments) {
+        plans.addPayment(listPayments);
+    }
 }

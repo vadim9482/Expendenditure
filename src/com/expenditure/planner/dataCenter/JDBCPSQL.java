@@ -1,17 +1,15 @@
 package com.expenditure.planner.dataCenter;
 
+import com.expenditure.planner.ListPayments;
+import com.expenditure.planner.Payment;
+import com.expenditure.planner.Transaction;
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-
-import com.expenditure.planner.ListPayments;
-import com.expenditure.planner.Payment;
-import com.expenditure.planner.Transaction;
-import com.expenditure.planner.User;
-
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 
@@ -21,22 +19,29 @@ import static com.expenditure.planner.Planner.PASS_DATABASE;
 
 public class JDBCPSQL {
 
-    public void createUserPlansTable(User user) {
-        String tableName = user.getName() + "_plans";
+    public void createUsersTable() {
+        String tableName = "users";
+        String query = "CREATE TABLE " + tableName
+                + " (ID VARCHAR(36) NOT NULL, NAME VARCHAR(128) NOT NULL, PASSWORD VARCHAR(128) NOT NULL);";
+        createTable(tableName, query);
+    }
+
+    public void createUserPlansTable(String name) {
+        String tableName = name + "_plans";
         String query = "CREATE TABLE " + tableName
                 + " (ID VARCHAR(36) NOT NULL, NAME VARCHAR(128) NOT NULL, VALUE INT);";
         createTable(tableName, query);
     }
 
-    public void createUserCashTable(User user) {
-        String tableName = user.getName() + "_cash";
+    public void createUserCashTable(String name) {
+        String tableName = name + "_cash";
         String query = "CREATE TABLE " + tableName
                 + " (ID VARCHAR(128) NOT NULL, NAME VARCHAR(128) NOT NULL, VALUE INT, TRANSACTION_DATE DATE NOT NULL DEFAULT CURRENT_DATE);";
         createTable(tableName, query);
     }
 
-    public void createUserCardTable(User user) {
-        String tableName = user.getName() + "_card";
+    public void createUserCardTable(String name) {
+        String tableName = name + "_card";
         String query = "CREATE TABLE " + tableName
                 + " (ID VARCHAR(128) NOT NULL, NAME VARCHAR(128) NOT NULL, VALUE INT, TRANSACTION_DATE DATE NOT NULL DEFAULT CURRENT_DATE);";
         createTable(tableName, query);
@@ -59,6 +64,27 @@ public class JDBCPSQL {
         }
     }
 
+    public void addUser(String ID, String name, String password) {
+        createUsersTable();
+
+        String query = "INSERT INTO users (ID, NAME, PASSWORD) VALUES (?,?,?)";
+        try {
+            Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, ID);
+            preparedStatement.setString(2, name);
+            preparedStatement.setString(3, password);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("User " + name + " was appended");
+    }
+
+    
+    //SELECT * FROM users WHERE NAME='vadim9482';
+    
+    
     public void appendPlan(Payment payment) {
 
         String query = "INSERT INTO payments(NAME, VALUE) VALUES(?, ?)";
@@ -73,7 +99,7 @@ public class JDBCPSQL {
         }
     }
 
-    public void appendPlans(ListPayments listPayments, String name) {
+    public void appendPlan(ListPayments listPayments, String name) {
         String query = "INSERT INTO " + name + "_payments (ID, NAME, PAYMENT_VALUE) VALUES (?,?,?)";
         int i = 0;
         try {

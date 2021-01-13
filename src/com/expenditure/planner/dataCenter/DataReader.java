@@ -7,13 +7,12 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.expenditure.planner.Planner.RESOURCE_PATH;
 import static com.expenditure.planner.Planner.SEPARATOR_LINE;
 
 public class DataReader {
 
-    static String read(String filename) {
-        File file = new File(RESOURCE_PATH, filename);
+    static String read(String resoursePath, String filename) {
+        File file = new File(resoursePath, filename);
         String line;
         StringBuilder output = new StringBuilder();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
