@@ -9,8 +9,7 @@ public class PlannerApp {
 
     public static void main(String[] args) {
         Planner planner = new Planner();
-        planner.createUser("vadim9482_fake", "pass");
-        planner.importCSVPlan("vadim9482", RESOURCE_PATH,PLANS_FILENAME);
-        
+        planner.createUser("vadim9482", "pass");
+        planner.importCSVPlan("vadim9482", RESOURCE_PATH, PLANS_FILENAME);
     }
 }

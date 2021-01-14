@@ -1,36 +1,42 @@
 package com.expenditure.planner;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import com.expenditure.planner.dataCenter.DAO;
 
 public class User {
     private UUID uuid;
     private String name;
     private String password;
-    private ListPayments plans;
-    private ListTransaction cash;
-    private ListTransaction card;
+    private List<Payment> plans;
+    private List<Transaction> cash;
+    private List<Transaction> card;
+    DAO dao = new DAO();
 
     User(String name, String password) {
         this.uuid = UUID.randomUUID();
         this.name = name;
         this.password = password;
-        plans = new ListPayments();
-        cash = new ListTransaction();
-        card = new ListTransaction();
+        plans = new ArrayList<>();
+        cash = new ArrayList<>();
+        card = new ArrayList<>();
+        dao.initUserDB(uuid.toString(), name, password);
     }
 
     User(String ID, String name, String password) {
         this.uuid = UUID.fromString(ID);
         this.name = name;
         this.password = password;
-        plans = new ListPayments();
-        cash = new ListTransaction();
-        card = new ListTransaction();
+        plans = new ArrayList<>();
+        cash = new ArrayList<>();
+        card = new ArrayList<>();
+        dao.initUserDB(uuid.toString(), name, password);
     }
 
     public void update() {
-        
+
     }
 
     public boolean checkPassword(String inputPass) {
@@ -45,23 +51,23 @@ public class User {
         return name;
     }
 
-    public ListPayments getListPlans() {
+    public List<Payment> getListPlans() {
         return plans;
     }
 
-    public ListTransaction getListCash() {
+    public List<Transaction> getListCash() {
         return cash;
     }
 
-    public ListTransaction getListCard() {
+    public List<Transaction> getListCard() {
         return card;
     }
 
     public void addPlan(Payment payment) {
-        plans.addPayment(payment);
+        plans.add(payment);
     }
 
     public void addPlan(List<Payment> listPayments) {
-        plans.addPayment(listPayments);
+        plans.addAll(listPayments);
     }
 }

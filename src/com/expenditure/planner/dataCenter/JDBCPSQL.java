@@ -1,6 +1,5 @@
 package com.expenditure.planner.dataCenter;
 
-import com.expenditure.planner.ListPayments;
 import com.expenditure.planner.Payment;
 import com.expenditure.planner.Transaction;
 
@@ -9,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -19,28 +19,64 @@ import static com.expenditure.planner.Planner.PASS_DATABASE;
 
 public class JDBCPSQL {
 
-    public void createUsersTable() {
+    public void addUser(String ID, String name, String password) {
+        createUsersTable();
+        String query = "INSERT INTO users (ID, NAME, PASSWORD) VALUES (?,?,?)";
+        try {
+            Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
+            if (!isAvailabeUser(connection, name)) {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, ID);
+                preparedStatement.setString(2, name);
+                preparedStatement.setString(3, password);
+                preparedStatement.executeUpdate();
+                System.out.println("User " + name + " was appended");
+            } else {
+                System.out.println("User " + name + " already exist");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        createUserPlansTable(name);
+        createUserCashTable(name);
+        createUserCardTable(name);
+    }
+
+    private boolean isAvailabeUser(Connection connection, String name) {
+        String query = "SELECT * FROM users WHERE NAME='" + name + "';";
+        boolean flag = false;
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            flag = resultSet.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return flag;
+    }
+
+    private void createUsersTable() {
         String tableName = "users";
         String query = "CREATE TABLE " + tableName
                 + " (ID VARCHAR(36) NOT NULL, NAME VARCHAR(128) NOT NULL, PASSWORD VARCHAR(128) NOT NULL);";
         createTable(tableName, query);
     }
 
-    public void createUserPlansTable(String name) {
+    private void createUserPlansTable(String name) {
         String tableName = name + "_plans";
         String query = "CREATE TABLE " + tableName
                 + " (ID VARCHAR(36) NOT NULL, NAME VARCHAR(128) NOT NULL, VALUE INT);";
         createTable(tableName, query);
     }
 
-    public void createUserCashTable(String name) {
+    private void createUserCashTable(String name) {
         String tableName = name + "_cash";
         String query = "CREATE TABLE " + tableName
                 + " (ID VARCHAR(128) NOT NULL, NAME VARCHAR(128) NOT NULL, VALUE INT, TRANSACTION_DATE DATE NOT NULL DEFAULT CURRENT_DATE);";
         createTable(tableName, query);
     }
 
-    public void createUserCardTable(String name) {
+    private void createUserCardTable(String name) {
         String tableName = name + "_card";
         String query = "CREATE TABLE " + tableName
                 + " (ID VARCHAR(128) NOT NULL, NAME VARCHAR(128) NOT NULL, VALUE INT, TRANSACTION_DATE DATE NOT NULL DEFAULT CURRENT_DATE);";
@@ -64,27 +100,6 @@ public class JDBCPSQL {
         }
     }
 
-    public void addUser(String ID, String name, String password) {
-        createUsersTable();
-
-        String query = "INSERT INTO users (ID, NAME, PASSWORD) VALUES (?,?,?)";
-        try {
-            Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, ID);
-            preparedStatement.setString(2, name);
-            preparedStatement.setString(3, password);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println("User " + name + " was appended");
-    }
-
-    
-    //SELECT * FROM users WHERE NAME='vadim9482';
-    
-    
     public void appendPlan(Payment payment) {
 
         String query = "INSERT INTO payments(NAME, VALUE) VALUES(?, ?)";
@@ -99,13 +114,13 @@ public class JDBCPSQL {
         }
     }
 
-    public void appendPlan(ListPayments listPayments, String name) {
+    public void appendPlan(List<Payment> listPayments, String name) {
         String query = "INSERT INTO " + name + "_payments (ID, NAME, PAYMENT_VALUE) VALUES (?,?,?)";
         int i = 0;
         try {
             Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            for (Payment payment : listPayments.getPayments()) {
+            for (Payment payment : listPayments) {
                 preparedStatement.setString(1, payment.getID().toString());
                 preparedStatement.setString(2, payment.getName());
                 preparedStatement.setInt(3, payment.getValue());
@@ -156,8 +171,8 @@ public class JDBCPSQL {
         return flag;
     }
 
-    public ListPayments returnListPlans(String name) {
-        ListPayments listPayments = new ListPayments();
+    public List<Payment> returnListPlans(String name) {
+        List<Payment> listPayments = new ArrayList<>();
         String query = "SELECT * FROM " + name + "_PAYMENTS;";
         int i = 0;
         try {
@@ -165,7 +180,7 @@ public class JDBCPSQL {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                listPayments.addPayment(new Payment(resultSet.getString(2), resultSet.getInt(3)));
+                listPayments.add(new Payment(resultSet.getString(2), resultSet.getInt(3)));
                 i++;
             }
         } catch (SQLException e) {

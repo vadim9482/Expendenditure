@@ -18,14 +18,18 @@ public class Planner {
     DAO dao = new DAO();
 
     public void createUser(String name, String password) {
-        User user = new User(name, password);
-        users.put(user.getName(), user);
-        dao.initUserDB(user.getUuid().toString(), user.getName(), password);
+        if (!users.containsKey(name)) {
+            User user = new User(name, password);
+            users.put(user.getName(), user);
+            
+        }
     }
 
     private User getUser(String name) {
-        User user = users.get(name);
-        return user;
+        if (!users.containsKey(name)) {
+            throw new IllegalArgumentException("No user " + name + " was found");
+        }
+        return users.get(name);
     }
 
     public void importCSVPlan(String name, String path, String fileName) {

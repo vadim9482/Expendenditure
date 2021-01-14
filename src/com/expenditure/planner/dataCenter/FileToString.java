@@ -9,7 +9,7 @@ import java.util.List;
 
 import static com.expenditure.planner.Planner.SEPARATOR_LINE;
 
-public class DataReader {
+public class FileToString {
 
     static String read(String resoursePath, String filename) {
         File file = new File(resoursePath, filename);

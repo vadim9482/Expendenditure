@@ -6,11 +6,11 @@ public class Payment {
     private UUID ID;
     private String name;
     private int value;
-    
-    public Payment (String name, int value) {
+
+    public Payment(String name, int value) {
+        this.ID = UUID.randomUUID();
         this.name = name;
         this.value = value;
-        this.ID = UUID.randomUUID();
     }
 
     public UUID getID() {
