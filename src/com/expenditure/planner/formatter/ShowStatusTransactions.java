@@ -1,7 +1,9 @@
-package com.expenditure.planner;
+package com.expenditure.planner.formatter;
 
 import java.util.Date;
 import java.util.List;
+
+import com.expenditure.planner.Transaction;
 
 public class ShowStatusTransactions implements ShowStatus<Transaction> {
 

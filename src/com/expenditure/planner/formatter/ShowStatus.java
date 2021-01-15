@@ -1,4 +1,4 @@
-package com.expenditure.planner;
+package com.expenditure.planner.formatter;
 
 import java.util.List;
 

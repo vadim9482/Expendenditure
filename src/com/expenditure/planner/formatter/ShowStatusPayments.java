@@ -1,6 +1,8 @@
-package com.expenditure.planner;
+package com.expenditure.planner.formatter;
 
 import java.util.List;
+
+import com.expenditure.planner.Payment;
 
 public class ShowStatusPayments implements ShowStatus<Payment> {
 

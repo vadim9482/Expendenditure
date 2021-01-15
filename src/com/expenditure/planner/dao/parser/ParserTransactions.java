@@ -1,4 +1,4 @@
-package com.expenditure.planner;
+package com.expenditure.planner.dao.parser;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -8,7 +8,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import com.expenditure.planner.dataCenter.FileToString;
+import com.expenditure.planner.Transaction;
+import com.expenditure.planner.dao.csv.FileToString;
 
 import static com.expenditure.planner.Planner.DATE_FORMAT;
 

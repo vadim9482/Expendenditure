@@ -1,7 +1,8 @@
-package com.expenditure.planner.dataCenter;
+package com.expenditure.planner.dao.postgres;
 
 import com.expenditure.planner.Payment;
 import com.expenditure.planner.Transaction;
+import com.expenditure.planner.User;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,8 +11,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 
 import static com.expenditure.planner.Planner.URL_DATABASE;
 import static com.expenditure.planner.Planner.LOGIN_DATABASE;
@@ -19,33 +20,36 @@ import static com.expenditure.planner.Planner.PASS_DATABASE;
 
 public class JDBCPSQL {
 
-    public void addUser(String ID, String name, String password) {
-        createUsersTable();
+    Logger logger = Logger.getLogger(JDBCPSQL.class.getName());
+
+    public void addUser(User user) {
+        TableFactory.createUsersTable();
+        TableFactory.createPlansTable(user.getName());
+        TableFactory.createCashTable(user.getName());
+        TableFactory.createCardTable(user.getName());
         String query = "INSERT INTO users (ID, NAME, PASSWORD) VALUES (?,?,?)";
         try {
             Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
-            if (!isAvailabeUser(connection, name)) {
+            if (!isAvailabeUser(user.getName())) {
                 PreparedStatement preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setString(1, ID);
-                preparedStatement.setString(2, name);
-                preparedStatement.setString(3, password);
+                preparedStatement.setString(1, user.getUuid().toString());
+                preparedStatement.setString(2, user.getName());
+                preparedStatement.setString(3, user.getPassword());
                 preparedStatement.executeUpdate();
-                System.out.println("User " + name + " was appended");
+                logger.info("User " + user.getName() + " was appended");
             } else {
-                System.out.println("User " + name + " already exist");
+                logger.info("User " + user.getName() + " already exist");
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        createUserPlansTable(name);
-        createUserCashTable(name);
-        createUserCardTable(name);
     }
 
-    private boolean isAvailabeUser(Connection connection, String name) {
+    public boolean isAvailabeUser(String name) {
         String query = "SELECT * FROM users WHERE NAME='" + name + "';";
         boolean flag = false;
         try {
+            Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             flag = resultSet.next();
@@ -53,51 +57,6 @@ public class JDBCPSQL {
             e.printStackTrace();
         }
         return flag;
-    }
-
-    private void createUsersTable() {
-        String tableName = "users";
-        String query = "CREATE TABLE " + tableName
-                + " (ID VARCHAR(36) NOT NULL, NAME VARCHAR(128) NOT NULL, PASSWORD VARCHAR(128) NOT NULL);";
-        createTable(tableName, query);
-    }
-
-    private void createUserPlansTable(String name) {
-        String tableName = name + "_plans";
-        String query = "CREATE TABLE " + tableName
-                + " (ID VARCHAR(36) NOT NULL, NAME VARCHAR(128) NOT NULL, VALUE INT);";
-        createTable(tableName, query);
-    }
-
-    private void createUserCashTable(String name) {
-        String tableName = name + "_cash";
-        String query = "CREATE TABLE " + tableName
-                + " (ID VARCHAR(128) NOT NULL, NAME VARCHAR(128) NOT NULL, VALUE INT, TRANSACTION_DATE DATE NOT NULL DEFAULT CURRENT_DATE);";
-        createTable(tableName, query);
-    }
-
-    private void createUserCardTable(String name) {
-        String tableName = name + "_card";
-        String query = "CREATE TABLE " + tableName
-                + " (ID VARCHAR(128) NOT NULL, NAME VARCHAR(128) NOT NULL, VALUE INT, TRANSACTION_DATE DATE NOT NULL DEFAULT CURRENT_DATE);";
-        createTable(tableName, query);
-    }
-
-    private void createTable(String tableName, String query) {
-        try {
-            Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
-            DatabaseMetaData databaseMetaData = connection.getMetaData();
-            ResultSet resultSet = databaseMetaData.getTables(null, null, tableName, null);
-            if (resultSet.next()) {
-                System.out.println("Table " + tableName + " already exist");
-            } else {
-                Statement statement = connection.createStatement();
-                statement.executeUpdate(query);
-                System.out.println("Table " + tableName + " was created");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public void appendPlan(Payment payment) {
@@ -171,9 +130,9 @@ public class JDBCPSQL {
         return flag;
     }
 
-    public List<Payment> returnListPlans(String name) {
+    public List<Payment> returnAllPlans(String name) {
         List<Payment> listPayments = new ArrayList<>();
-        String query = "SELECT * FROM " + name + "_PAYMENTS;";
+        String query = "SELECT * FROM PAYMENTS;";
         int i = 0;
         try {
             Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);

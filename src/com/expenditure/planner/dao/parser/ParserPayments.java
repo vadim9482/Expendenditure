@@ -1,9 +1,10 @@
-package com.expenditure.planner;
+package com.expenditure.planner.dao.parser;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import com.expenditure.planner.dataCenter.FileToString;
+import com.expenditure.planner.Payment;
+import com.expenditure.planner.dao.csv.FileToString;
 
 public class ParserPayments implements Parse<Payment> {
 
