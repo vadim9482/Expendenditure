@@ -30,7 +30,8 @@ public class Planner {
     }
 
     public void importDB() {
-        User user = UserFactory.createUser(USER_NAME, USER_PASSWORD);
+        UserFactory userFactory = new UserFactory();
+        User user = userFactory.createUser(USER_NAME, USER_PASSWORD);
         DAO<User> daoUser = new DAOUser();
         daoUser.save(user);
         daoUser.get(USER_NAME);

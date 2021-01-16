@@ -17,6 +17,6 @@ public class FormaterUsers implements Formater<User> {
     }
 
     private String formatedView(UUID uuid, String name) {
-        return String.format("%-14s", name) + "|" + String.format("%-14s", name) + "|";
+        return String.format("| %-36s", uuid.toString()) +  String.format("| %14s |", name);
     }
 }
