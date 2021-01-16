@@ -7,6 +7,7 @@ public interface DAO<T> {
     Optional<T>get(String name);
     List<T>getAll();
     void save(T t);
+    void saveAll(List<T> t);
     void update (T t, String[] params);
     void delete (T t);
 }

@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import com.expenditure.planner.Transaction;
 import com.expenditure.planner.dao.DAO;
-import com.expenditure.planner.dao.parser.ParserTransactions;
+import com.expenditure.planner.dao.csv.csvparser.ParserTransactions;
 
 public class CSVMethodsTransaction implements DAO<Transaction> {
 
@@ -37,6 +37,12 @@ public class CSVMethodsTransaction implements DAO<Transaction> {
     }
 
     @Override
+    public void saveAll(List<Transaction> t) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
     public void update(Transaction t, String[] params) {
         // TODO Auto-generated method stub
         
@@ -47,5 +53,5 @@ public class CSVMethodsTransaction implements DAO<Transaction> {
         // TODO Auto-generated method stub
         
     }
-
+    
 }

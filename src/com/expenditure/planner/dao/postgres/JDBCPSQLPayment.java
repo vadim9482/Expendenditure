@@ -2,7 +2,6 @@ package com.expenditure.planner.dao.postgres;
 
 import com.expenditure.planner.Payment;
 import com.expenditure.planner.Transaction;
-import com.expenditure.planner.User;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -14,56 +13,19 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.sql.Connection;
 
-import static com.expenditure.planner.Planner.URL_DATABASE;
-import static com.expenditure.planner.Planner.LOGIN_DATABASE;
-import static com.expenditure.planner.Planner.PASS_DATABASE;
+import static com.expenditure.planner.Planner.DATABASE_URL;
+import static com.expenditure.planner.Planner.DATABASE_LOGIN;
+import static com.expenditure.planner.Planner.DATABASE_PASS;
 
-public class JDBCPSQL {
+public class JDBCPSQLPayment {
 
-    Logger logger = Logger.getLogger(JDBCPSQL.class.getName());
+    Logger logger = Logger.getLogger(JDBCPSQLPayment.class.getName());
 
-    public void addUser(User user) {
-        TableFactory.createUsersTable();
-        TableFactory.createPlansTable(user.getName());
-        TableFactory.createCashTable(user.getName());
-        TableFactory.createCardTable(user.getName());
-        String query = "INSERT INTO users (ID, NAME, PASSWORD) VALUES (?,?,?)";
-        try {
-            Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
-            if (!isAvailabeUser(user.getName())) {
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setString(1, user.getUuid().toString());
-                preparedStatement.setString(2, user.getName());
-                preparedStatement.setString(3, user.getPassword());
-                preparedStatement.executeUpdate();
-                logger.info("User " + user.getName() + " was appended");
-            } else {
-                logger.info("User " + user.getName() + " already exist");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public boolean isAvailabeUser(String name) {
-        String query = "SELECT * FROM users WHERE NAME='" + name + "';";
-        boolean flag = false;
-        try {
-            Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            flag = resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return flag;
-    }
-
-    public void appendPlan(Payment payment) {
+    public void savePayment(Payment payment) {
 
         String query = "INSERT INTO payments(NAME, VALUE) VALUES(?, ?)";
         try {
-            Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
+            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, payment.getName());
             preparedStatement.setInt(1, payment.getValue());
@@ -77,7 +39,7 @@ public class JDBCPSQL {
         String query = "INSERT INTO " + name + "_payments (ID, NAME, PAYMENT_VALUE) VALUES (?,?,?)";
         int i = 0;
         try {
-            Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
+            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             for (Payment payment : listPayments) {
                 preparedStatement.setString(1, payment.getID().toString());
@@ -89,14 +51,14 @@ public class JDBCPSQL {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(i + " Rows were appended");
+        logger.info(i + " Rows were appended");
     }
 
     public void appendCash(List<Transaction> transactions) {
         String query = "INSERT INTO transactions (ID, NAME, PAYMENT_VALUE) VALUES (?,?,?)";
         int i = 0;
         try {
-            Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
+            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             for (Transaction transaction : transactions) {
                 preparedStatement.setString(1, transaction.getID().toString());
@@ -108,21 +70,21 @@ public class JDBCPSQL {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(i + " Rows were appended");
+        logger.info(i + " Rows were appended");
     }
 
     public boolean connectCheck() {
         boolean flag = false;
         try {
-            Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
+            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
             Statement statement = connection.createStatement();
             if (connection != null) {
-                System.out.println("Connected to PostgreSQL server");
+                logger.info("Connected to PostgreSQL server");
                 flag = true;
             }
             ResultSet resultSet = statement.executeQuery("SELECT VERSION()");
             if (resultSet.next()) {
-                System.out.println(resultSet.getString(1));
+                logger.info(resultSet.getString(1));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -130,12 +92,12 @@ public class JDBCPSQL {
         return flag;
     }
 
-    public List<Payment> returnAllPlans(String name) {
+    public List<Payment> getAllPayments(String name) {
         List<Payment> listPayments = new ArrayList<>();
         String query = "SELECT * FROM PAYMENTS;";
         int i = 0;
         try {
-            Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
+            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -145,7 +107,7 @@ public class JDBCPSQL {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(i + " Rows were readed");
+        logger.info(i + " Rows were readed");
         return listPayments;
     }
 
@@ -153,7 +115,7 @@ public class JDBCPSQL {
         String query = "CREATE USER " + name + "WITH " + "CREATEDB PASSWORD " + "'" + password + "';" + "SET ROLE "
                 + name + ";" + "CREATE DATABASE " + "PAYMENTS" + name + " OWNER " + name + ";";
         try {
-            Connection connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
+            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
             Statement statement = connection.createStatement();
             statement.executeUpdate(query);
         } catch (SQLException e) {

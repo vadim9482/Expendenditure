@@ -26,6 +26,12 @@ public class DAOPayment implements DAO<Payment> {
     }
 
     @Override
+    public void saveAll(List<Payment> t) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
     public void update(Payment t, String[] params) {
         // TODO Auto-generated method stub
         

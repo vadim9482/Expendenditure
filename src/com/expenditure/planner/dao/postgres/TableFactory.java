@@ -1,8 +1,8 @@
 package com.expenditure.planner.dao.postgres;
 
-import static com.expenditure.planner.Planner.LOGIN_DATABASE;
-import static com.expenditure.planner.Planner.PASS_DATABASE;
-import static com.expenditure.planner.Planner.URL_DATABASE;
+import static com.expenditure.planner.Planner.DATABASE_LOGIN;
+import static com.expenditure.planner.Planner.DATABASE_PASS;
+import static com.expenditure.planner.Planner.DATABASE_URL;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -13,7 +13,7 @@ import java.sql.Statement;
 import java.util.logging.Logger;
 
 public class TableFactory {
-    public static Logger logger = Logger.getLogger(JDBCPSQL.class.getName());
+    public static Logger logger = Logger.getLogger(JDBCPSQLPayment.class.getName());
 
     static void createUsersTable() {
         String tableName = "users";
@@ -46,7 +46,7 @@ public class TableFactory {
     private static void createTable(String tableName, String query) {
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(URL_DATABASE, LOGIN_DATABASE, PASS_DATABASE);
+            connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
             DatabaseMetaData databaseMetaData = connection.getMetaData();
             ResultSet resultSet = databaseMetaData.getTables(null, null, tableName, null);
             if (resultSet.next()) {
