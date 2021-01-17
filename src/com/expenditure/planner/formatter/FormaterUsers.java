@@ -2,6 +2,7 @@ package com.expenditure.planner.formatter;
 
 import java.util.List;
 import java.util.UUID;
+import static com.expenditure.planner.Planner.SEPARATOR_LINE;
 
 import com.expenditure.planner.User;
 
@@ -17,6 +18,6 @@ public class FormaterUsers implements Formater<User> {
     }
 
     private String formatedView(UUID uuid, String name) {
-        return String.format("| %-36s", uuid.toString()) +  String.format("| %14s |", name);
+        return String.format("| %-37s|", uuid.toString()) +  String.format(" %14s |", name)+SEPARATOR_LINE;
     }
 }

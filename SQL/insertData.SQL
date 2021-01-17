@@ -1,19 +1,21 @@
 INSERT INTO
-    USER(
+    users(
         USER_ID,
-        NAME
+        NAME,
+        PASSWORD
     )
 VALUES
-    (1, 'VADIM'),
-    (2, 'IRYNA');
+    (1, 'Vadim', 'pass'),
+    (2, 'Iryna', 'pass');
 
 INSERT INTO 
-    TRANSACTIONS(
-        TRANSACTION_ID,
-        NAME,
-        TRANSACTION_VALUE
+    plans(
+        PAYMENT_ID,
+        DESCRIPTION,
+        VALUE,
+        USER_ID
     )
 VALUES
-    (1, 'NOVUS', 125),
-    (2, 'NOVUS', 256),
-    (3, 'Mobile', 200);
+    (1, 'NOVUS', 125 , 2),
+    (2, 'NOVUS', 256 , 2),
+    (3, 'Mobile', 200 , 1);

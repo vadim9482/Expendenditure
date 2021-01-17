@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import com.expenditure.planner.dao.csv.CSVMethodsPayment;
-
 public class User {
     private UUID uuid;
     private String name;
@@ -13,7 +11,6 @@ public class User {
     private List<Payment> plans;
     private List<Transaction> cash;
     private List<Transaction> card;
-    CSVMethodsPayment csvMethods = new CSVMethodsPayment();
 
     User(String name, String password) {
         this.uuid = UUID.randomUUID();
@@ -69,7 +66,4 @@ public class User {
         return card;
     }
 
-    public CSVMethodsPayment getDao() {
-        return csvMethods;
-    }
 }

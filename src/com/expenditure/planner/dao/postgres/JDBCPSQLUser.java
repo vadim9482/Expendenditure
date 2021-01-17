@@ -107,10 +107,10 @@ public class JDBCPSQLUser {
     }
 
     public void saveUser(User user) {
-        TableFactory.createUsersTable();
-        TableFactory.createPlansTable(user.getName());
-        TableFactory.createCashTable(user.getName());
-        TableFactory.createCardTable(user.getName());
+       // TableFactory.createUsersTable();
+        //TableFactory.createPlansTable(user.getName());
+       // TableFactory.createCashTable(user.getName());
+       // TableFactory.createCardTable(user.getName());
         String query = "INSERT INTO users (ID, NAME, PASSWORD) VALUES (?,?,?)";
         try {
             Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);

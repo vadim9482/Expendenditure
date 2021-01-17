@@ -11,7 +11,7 @@ import java.util.Locale;
 import com.expenditure.planner.Transaction;
 import com.expenditure.planner.dao.csv.FileToString;
 
-import static com.expenditure.planner.Planner.DATE_FORMAT;
+import static com.expenditure.planner.Planner.FORMAT_DATE;
 
 public class ParserTransactions implements Parse<Transaction> {
 
@@ -32,7 +32,7 @@ public class ParserTransactions implements Parse<Transaction> {
         String name = incomeString[1];
         String dateString = incomeString[2];
         Locale locale = new Locale("en", "US");
-        DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, locale);
+        DateFormat dateFormat = new SimpleDateFormat(FORMAT_DATE, locale);
         Date date = null;
         try {
             date = dateFormat.parse(dateString);

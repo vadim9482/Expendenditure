@@ -15,17 +15,17 @@ import java.util.logging.Logger;
 public class TableFactory {
     public static Logger logger = Logger.getLogger(JDBCPSQLPayment.class.getName());
 
-    static void createUsersTable() {
+    public void createUsersTable() {
         String tableName = "users";
         String query = "CREATE TABLE " + tableName
-                + " (ID VARCHAR(36) NOT NULL, NAME VARCHAR(128) NOT NULL, PASSWORD VARCHAR(128) NOT NULL);";
+                + " (ID VARCHAR(36) NOT NULL, NAME VARCHAR(128) NOT NULL, PASSWORD VARCHAR(128) NOT NULL, PRIMARY KEY(ID));";
         createTable(tableName, query);
     }
 
-    static void createPlansTable(String name) {
+    public void createPlansTable() {
         String tableName = "plans";
         String query = "CREATE TABLE " + tableName
-                + " (USER_ID VARCHAR(36) NOT NULL, PAYMENT_ID VARCHAR(36) NOT NULL, DESCRIPTION VARCHAR(128) NOT NULL, VALUE INT);";
+                + " (PAYMENT_ID VARCHAR(36) NOT NULL, DESCRIPTION VARCHAR(128) NOT NULL, VALUE INT, USER_ID VARCHAR(36) NOT NULL, PRIMARY KEY (ID),FOREIGN KEY(USER_ID));";
         createTable(tableName, query);
     }
 

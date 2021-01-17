@@ -1,19 +1,14 @@
 CREATE TABLE
-
-        USER (USER_ID int, NAME VARCHAR(128));
-
-
-
-
-
-CREATE TABLE
-   USER(
-        USER_ID    INT PRIMARY KEY,
-        NAME        VARCHAR(128) NOT NULL
-);
+       users (
+             USER_ID VARCHAR(36) NOT NULL PRIMARY KEY,
+             NAME VARCHAR(128) NOT NULL,
+             PASSWORD VARCHAR(128) NOT NULL
+       );
 
 CREATE TABLE
-    PAYMENTS(
-        NAME        VARCHAR(128) NOT NULL,
-        TRANSACTION_VALUE       INT
-    );
+       plans (
+             PAYMENT_ID VARCHAR(36) NOT NULL PRIMARY KEY,
+             DESCRIPTION VARCHAR(128) NOT NULL,
+             VALUE INT,
+             USER_ID VARCHAR(36) REFERENCES users(USER_ID) ON DELETE CASCADE
+       );

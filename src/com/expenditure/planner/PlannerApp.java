@@ -1,9 +1,12 @@
 package com.expenditure.planner;
 
+import com.expenditure.planner.dao.postgres.TableFactory;
+
 public class PlannerApp {
 
     public static void main(String[] args) {
-        Planner planner = new Planner();
-        planner.showUserAll();
+        TableFactory tableFactory = new TableFactory();
+        tableFactory.createUsersTable();
+        tableFactory.createPlansTable();
     }
 }

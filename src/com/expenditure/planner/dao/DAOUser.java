@@ -26,8 +26,6 @@ public class DAOUser implements DAO<User> {
 
     @Override
     public void saveAll(List<User> t) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override

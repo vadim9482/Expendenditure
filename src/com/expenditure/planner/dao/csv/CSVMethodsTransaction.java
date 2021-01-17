@@ -8,15 +8,10 @@ import com.expenditure.planner.Transaction;
 import com.expenditure.planner.dao.DAO;
 import com.expenditure.planner.dao.csv.csvparser.ParserTransactions;
 
-public class CSVMethodsTransaction implements DAO<Transaction> {
+import static com.expenditure.planner.Planner.RESOURCE_PATH;
+import static com.expenditure.planner.Planner.FILENAME_EXPENCES;
 
-    public List<Transaction> importCashCsv(String resoursePath, String filename) {
-        List<Transaction> listCash = new LinkedList<>();
-        String expencesString = FileToString.read(resoursePath, filename);
-        ParserTransactions parserTransactions = new ParserTransactions();
-        listCash.addAll(parserTransactions.parse(expencesString));
-        return listCash;
-    }
+public class CSVMethodsTransaction implements DAO<Transaction> {
 
     @Override
     public Optional<Transaction> get(String name) {
@@ -26,32 +21,35 @@ public class CSVMethodsTransaction implements DAO<Transaction> {
 
     @Override
     public List<Transaction> getAll() {
-        // TODO Auto-generated method stub
-        return null;
+        List<Transaction> listCash = new LinkedList<>();
+        String expencesString = FileToString.read(RESOURCE_PATH, FILENAME_EXPENCES);
+        ParserTransactions parserTransactions = new ParserTransactions();
+        listCash.addAll(parserTransactions.parse(expencesString));
+        return listCash;
     }
 
     @Override
     public void save(Transaction t) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void saveAll(List<Transaction> t) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void update(Transaction t, String[] params) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void delete(Transaction t) {
         // TODO Auto-generated method stub
-        
+
     }
-    
+
 }
