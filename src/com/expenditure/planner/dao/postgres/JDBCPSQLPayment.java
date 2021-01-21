@@ -1,7 +1,6 @@
 package com.expenditure.planner.dao.postgres;
 
 import com.expenditure.planner.Payment;
-import com.expenditure.planner.Transaction;
 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -54,25 +53,6 @@ public class JDBCPSQLPayment {
         logger.info(i + " Rows were appended");
     }
 
-    public void appendCash(List<Transaction> transactions) {
-        String query = "INSERT INTO transactions (ID, NAME, PAYMENT_VALUE) VALUES (?,?,?)";
-        int i = 0;
-        try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            for (Transaction transaction : transactions) {
-                preparedStatement.setString(1, transaction.getID().toString());
-                preparedStatement.setString(2, transaction.getName());
-                preparedStatement.setInt(3, transaction.getValue());
-                preparedStatement.executeUpdate();
-                i++;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        logger.info(i + " Rows were appended");
-    }
-
     public boolean connectCheck() {
         boolean flag = false;
         try {
@@ -111,15 +91,5 @@ public class JDBCPSQLPayment {
         return listPayments;
     }
 
-    public void createAdminDB(String name, String password) {
-        String query = "CREATE USER " + name + "WITH " + "CREATEDB PASSWORD " + "'" + password + "';" + "SET ROLE "
-                + name + ";" + "CREATE DATABASE " + "PAYMENTS" + name + " OWNER " + name + ";";
-        try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(query);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+
 }

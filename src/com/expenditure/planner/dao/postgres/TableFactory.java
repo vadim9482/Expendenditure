@@ -18,41 +18,44 @@ public class TableFactory {
     public void createUsersTable() {
         String tableName = "users";
         String query = "CREATE TABLE " + tableName
-                + " (ID VARCHAR(36) NOT NULL, NAME VARCHAR(128) NOT NULL, PASSWORD VARCHAR(128) NOT NULL, PRIMARY KEY(ID));";
+                + " (USER_ID VARCHAR(36) NOT NULL UNIQUE, NAME VARCHAR(128) NOT NULL, PASSWORD VARCHAR(128) NOT NULL);";
         createTable(tableName, query);
     }
 
     public void createPlansTable() {
         String tableName = "plans";
         String query = "CREATE TABLE " + tableName
-                + " (PAYMENT_ID VARCHAR(36) NOT NULL, DESCRIPTION VARCHAR(128) NOT NULL, VALUE INT, USER_ID VARCHAR(36) NOT NULL, PRIMARY KEY (ID),FOREIGN KEY(USER_ID));";
+                + " (PAYMENT_ID VARCHAR(36) NOT NULL PRIMARY KEY, DESCRIPTION VARCHAR(128) NOT NULL, VALUE INT,  USER_ID VARCHAR(36) REFERENCES users(USER_ID) ON DELETE CASCADE);";
         createTable(tableName, query);
     }
 
-    static void createCashTable(String name) {
+    public void createCashTable() {
         String tableName = "cash";
         String query = "CREATE TABLE " + tableName
-                + " (ID VARCHAR(128) NOT NULL, NAME VARCHAR(128) NOT NULL, VALUE INT, TRANSACTION_DATE DATE NOT NULL DEFAULT CURRENT_DATE);";
+                + " (TRANSACTION_ID VARCHAR(128) NOT NULL PRIMARY KEY, DESCRIPTION VARCHAR(128) NOT NULL, VALUE INT, USER_ID VARCHAR(36) REFERENCES users(USER_ID) ON DELETE CASCADE, TRANSACTION_DATE DATE NOT NULL DEFAULT CURRENT_DATE);";
         createTable(tableName, query);
     }
 
-    static void createCardTable(String name) {
+    public void createCardTable() {
         String tableName = "card";
         String query = "CREATE TABLE " + tableName
-                + " (ID VARCHAR(128) NOT NULL, NAME VARCHAR(128) NOT NULL, VALUE INT, TRANSACTION_DATE DATE NOT NULL DEFAULT CURRENT_DATE);";
+                + " (TRANSACTION_ID VARCHAR(128) NOT NULL PRIMARY KEY, DESCRIPTION VARCHAR(128) NOT NULL, VALUE INT, USER_ID VARCHAR(36) REFERENCES users(USER_ID) ON DELETE CASCADE, TRANSACTION_DATE DATE NOT NULL DEFAULT CURRENT_DATE);";
         createTable(tableName, query);
     }
 
     private static void createTable(String tableName, String query) {
         Connection connection = null;
+        DatabaseMetaData databaseMetaData = null;
+        ResultSet resultSet = null;
+        Statement statement = null;
         try {
             connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
-            DatabaseMetaData databaseMetaData = connection.getMetaData();
-            ResultSet resultSet = databaseMetaData.getTables(null, null, tableName, null);
+            databaseMetaData = connection.getMetaData();
+            resultSet = databaseMetaData.getTables(null, null, tableName, null);
             if (resultSet.next()) {
                 logger.info("Table " + tableName + " already exist");
             } else {
-                Statement statement = connection.createStatement();
+                statement = connection.createStatement();
                 statement.executeUpdate(query);
                 logger.info("Table " + tableName + " was created");
             }
@@ -60,7 +63,15 @@ public class TableFactory {
             logger.info(e.toString());
         } finally {
             try {
-                connection.close();
+                if (connection != null) {
+                    connection.close();
+                }
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
             } catch (SQLException e) {
                 logger.info(e.toString());
             }

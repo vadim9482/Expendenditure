@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -107,11 +108,11 @@ public class JDBCPSQLUser {
     }
 
     public void saveUser(User user) {
-       // TableFactory.createUsersTable();
-        //TableFactory.createPlansTable(user.getName());
-       // TableFactory.createCashTable(user.getName());
-       // TableFactory.createCardTable(user.getName());
-        String query = "INSERT INTO users (ID, NAME, PASSWORD) VALUES (?,?,?)";
+        // TableFactory.createUsersTable();
+        // TableFactory.createPlansTable(user.getName());
+        // TableFactory.createCashTable(user.getName());
+        // TableFactory.createCardTable(user.getName());
+        String query = "INSERT INTO users (USER_ID, NAME, PASSWORD) VALUES (?,?,?)";
         try {
             Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
             if (!isAvailabeUser(user.getName())) {
@@ -124,6 +125,18 @@ public class JDBCPSQLUser {
             } else {
                 logger.info("User " + user.getName() + " already exist");
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createAdminDB(String name, String password) {
+        String query = "CREATE USER " + name + "WITH " + "CREATEDB PASSWORD " + "'" + password + "';" + "SET ROLE "
+                + name + ";" + "CREATE DATABASE " + "PAYMENTS" + name + " OWNER " + name + ";";
+        try {
+            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.expenditure.planner.dao.DAO;
 import com.expenditure.planner.dao.DAOUser;
+import com.expenditure.planner.dao.postgres.TableFactory;
 import com.expenditure.planner.formatter.Formater;
 import com.expenditure.planner.formatter.FormaterUsers;
 
@@ -19,6 +20,14 @@ public class Planner {
     public static final String FILENAME_EXPENCES = "expences.csv";
     public static final String FILENAME_CARD_EXPENCES = "cardExpences.csv";
     public static final String FILENAME_PLANS = "plans.csv";
+
+    public void initDB() {
+        TableFactory tableFactory = new TableFactory();
+        tableFactory.createUsersTable();
+        tableFactory.createPlansTable();
+        tableFactory.createCashTable();
+        tableFactory.createCardTable();
+    }
 
     public void showUserAll() {
         DAO<User> daoUser = new DAOUser();
