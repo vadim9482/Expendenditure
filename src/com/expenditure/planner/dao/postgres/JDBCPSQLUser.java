@@ -32,9 +32,9 @@ public class JDBCPSQLUser {
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                String ID = resultSet.getString(0);
-                String name = resultSet.getString(1);
-                String password = resultSet.getString(2);
+                String ID = resultSet.getString(1);
+                String name = resultSet.getString(2);
+                String password = resultSet.getString(3);
                 userOptional = Optional.of(new UserFactory().createUser(ID, name, password));
             }
         } catch (SQLException e) {
@@ -93,30 +93,19 @@ public class JDBCPSQLUser {
         return users;
     }
 
-    private boolean isAvailabeUser(String name) {
-        String query = "SELECT * FROM users WHERE NAME='" + name + "';";
-        boolean flag = false;
-        try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            flag = resultSet.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return flag;
-    }
-
     public void saveUser(User user) {
-        // TableFactory.createUsersTable();
-        // TableFactory.createPlansTable(user.getName());
-        // TableFactory.createCashTable(user.getName());
-        // TableFactory.createCardTable(user.getName());
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String checkQuery = "SELECT * FROM users WHERE NAME='" + user.getName() + "';";
         String query = "INSERT INTO users (USER_ID, NAME, PASSWORD) VALUES (?,?,?)";
         try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
-            if (!isAvailabeUser(user.getName())) {
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
+            connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
+            preparedStatement = connection.prepareStatement(checkQuery);
+            resultSet = preparedStatement.executeQuery();
+            if (!resultSet.next()) {
+                preparedStatement.close();
+                preparedStatement = connection.prepareStatement(query);
                 preparedStatement.setString(1, user.getUuid().toString());
                 preparedStatement.setString(2, user.getName());
                 preparedStatement.setString(3, user.getPassword());
@@ -127,15 +116,31 @@ public class JDBCPSQLUser {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void createAdminDB(String name, String password) {
+        Connection connection = null;
+        Statement statement = null;
         String query = "CREATE USER " + name + "WITH " + "CREATEDB PASSWORD " + "'" + password + "';" + "SET ROLE "
                 + name + ";" + "CREATE DATABASE " + "PAYMENTS" + name + " OWNER " + name + ";";
         try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
-            Statement statement = connection.createStatement();
+            connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
+            statement = connection.createStatement();
             statement.executeUpdate(query);
         } catch (SQLException e) {
             e.printStackTrace();

@@ -11,7 +11,7 @@ import com.expenditure.planner.dao.csv.csvparser.ParserTransactions;
 import static com.expenditure.planner.Planner.RESOURCE_PATH;
 import static com.expenditure.planner.Planner.FILENAME_EXPENCES;
 
-public class CSVMethodsTransaction implements DAO<Transaction> {
+public class DAOCSVTransaction implements DAO<Transaction> {
 
     @Override
     public Optional<Transaction> get(String name) {

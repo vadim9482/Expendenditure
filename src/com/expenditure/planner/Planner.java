@@ -1,6 +1,7 @@
 package com.expenditure.planner;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.expenditure.planner.dao.DAO;
 import com.expenditure.planner.dao.DAOUser;
@@ -36,13 +37,19 @@ public class Planner {
         System.out.println(formater.toString(users));
     }
 
-    public User getUser(String name, String password) {
+    public User readUser(String name) {
+        User user = null;
         DAO<User> daoUser = new DAOUser();
-        User user = daoUser.get(name).get();
+        Optional<User> optional = daoUser.get(name);
+        if (optional != null) {
+            user = optional.get();
+        } else {
+            throw new IllegalArgumentException("Wrong user");
+        }
         return user;
     }
 
-    public void newUser(String name, String password) {
+    public void createUser(String name, String password) {
         User user = new UserFactory().createUser(name, password);
         DAO<User> daoUser = new DAOUser();
         daoUser.save(user);
