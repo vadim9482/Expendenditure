@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.expenditure.planner.dao.DAO;
+import com.expenditure.planner.dao.DAOPayment;
+import com.expenditure.planner.dao.DAOTransation;
 import com.expenditure.planner.dao.DAOUser;
 import com.expenditure.planner.dao.postgres.TableFactory;
 import com.expenditure.planner.formatter.Formater;
@@ -46,12 +48,21 @@ public class Planner {
         } else {
             throw new IllegalArgumentException("Wrong user");
         }
+        DAO<Payment> daoPayment = new DAOPayment();
         return user;
     }
 
-    public void createUser(String name, String password) {
+    public User createUser(String name, String password) {
         User user = new UserFactory().createUser(name, password);
+        return user;
+    }
+    
+    public void saveUser(User user) {
         DAO<User> daoUser = new DAOUser();
+        DAO<Payment> daoPayment = new DAOPayment();
+        DAO<Transaction> daoTransaction = new DAOTransation();
         daoUser.save(user);
+       // daoPayment.saveAll(user.getPlans());
+       // daoTransaction.saveAll(user.getCash());
     }
 }

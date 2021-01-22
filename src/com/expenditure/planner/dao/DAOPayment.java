@@ -8,7 +8,7 @@ import com.expenditure.planner.Payment;
 public class DAOPayment implements DAO<Payment> {
 
     @Override
-    public Optional<Payment> get(String name) {
+    public Optional<Payment> get(String ID) {
         // TODO Auto-generated method stub
         return null;
     }
