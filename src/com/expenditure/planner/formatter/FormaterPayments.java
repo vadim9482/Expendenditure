@@ -9,11 +9,15 @@ public class FormaterPayments implements Formater<Payment> {
 
     @Override
     public String toString(List<Payment> input) {
+        String outString;
         StringBuilder stringBuilder = new StringBuilder();
-        for (Payment payment : input) {
-            stringBuilder.append(formatedView(payment.getName(), payment.getValue()));
+        if (input != null) {
+            for (Payment payment : input) {
+                stringBuilder.append(formatedView(payment.getName(), payment.getValue()));
+            }
         }
-        return stringBuilder.toString();
+        outString = stringBuilder.toString() != null ? stringBuilder.toString() : "No data";
+        return outString;
     }
 
     private String formatedView(String name, int value) {

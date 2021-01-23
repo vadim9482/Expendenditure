@@ -1,47 +1,47 @@
 package com.expenditure.planner;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class User {
     private UUID uuid;
     private String name;
     private String password;
-    private List<TablePayments> plansTables;
-    private List<TableTransactions> cashTables;
-    private List<TableTransactions> cardTables;
+    private Map<String, ListOfPayments> libraryPlans;
+    private Map<String, ListOfTransactions> libraryCash;
+    private Map<String, ListOfTransactions> libraryCard;
 
     User(String name, String password) {
         this.uuid = UUID.randomUUID();
         this.name = name;
         this.password = password;
-        plansTables = new ArrayList<>();
-        cashTables = new ArrayList<>();
-        cardTables = new ArrayList<>();
+        libraryPlans = new HashMap<>();
+        libraryCash = new HashMap<>();
+        libraryCard = new HashMap<>();
     }
 
     User(String ID, String name, String password) {
         this.uuid = UUID.fromString(ID);
         this.name = name;
         this.password = password;
-        plansTables = new ArrayList<>();
-        cashTables = new ArrayList<>();
-        cardTables = new ArrayList<>();
+        libraryPlans = new HashMap<>();
+        libraryCash = new HashMap<>();
+        libraryCard = new HashMap<>();
     }
 
     public boolean checkPassword(String inputPass) {
         return inputPass.equals(password);
     }
 
-    public void addPlanTable(TablePayments tablePayments) {
-        plansTables.add(tablePayments);
+    public void addPlanTable(ListOfPayments tablePayments) {
+        libraryPlans.put(tablePayments.getName(), tablePayments);
     }
 
-    public void addCashTable (TableTransactions tableTransactions) {
-        cashTables.add(tableTransactions);
+    public void addCashTable(ListOfTransactions tableTransactions) {
+        libraryCash.put(tableTransactions.getName(), tableTransactions);
     }
-    
+
     public UUID getUuid() {
         return uuid;
     }
@@ -54,15 +54,15 @@ public class User {
         return password;
     }
 
-    public List<TablePayments> getPlansTables() {
-        return plansTables;
+    public Map<String, ListOfPayments> getListOfPlans() {
+        return libraryPlans;
     }
 
-    public List<TableTransactions> getCashTables() {
-        return cashTables;
+    public Map<String, ListOfTransactions> getListOfCash() {
+        return libraryCash;
     }
 
-    public List<TableTransactions> getCardTables() {
-        return cardTables;
+    public Map<String, ListOfTransactions> getAllCard() {
+        return libraryCard;
     }
 }
