@@ -7,6 +7,6 @@ public class UserFactory {
     }
 
     public User createUser(String ID, String name, String password) {
-        return new User(name, password);
+        return new User(ID, name, password);
     }
 }

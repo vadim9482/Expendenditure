@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface Formater<T> {
 
-    public String toString(List<T> input);
+    public String intToString(String desscription, T input);
+
+    public String listToString(List<T> input);
 
 }

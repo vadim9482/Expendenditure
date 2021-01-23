@@ -8,7 +8,7 @@ import static com.expenditure.planner.Planner.SEPARATOR_LINE;
 public class FormaterPayments implements Formater<Payment> {
 
     @Override
-    public String toString(List<Payment> input) {
+    public String listToString(List<Payment> input) {
         String outString;
         StringBuilder stringBuilder = new StringBuilder();
         if (input != null) {
@@ -24,4 +24,11 @@ public class FormaterPayments implements Formater<Payment> {
         return String.format("%-14s", name) + "|" + String.format("%10.2f", ((double) value) / 100) + "|"
                 + SEPARATOR_LINE;
     }
+
+    @Override
+    public String intToString(String desscription, Payment input) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

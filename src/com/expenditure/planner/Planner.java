@@ -36,7 +36,7 @@ public class Planner {
         DAO<User> daoUser = new DAOUser();
         List<User> users = daoUser.getAll();
         Formater<User> formater = new FormaterUsers();
-        System.out.println(formater.toString(users));
+        System.out.println(formater.listToString(users));
     }
 
     public User readUser(String name) {

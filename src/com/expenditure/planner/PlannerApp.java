@@ -5,6 +5,7 @@ import com.expenditure.planner.dao.csv.DAOCSVPayment;
 import com.expenditure.planner.dao.csv.DAOCSVTransaction;
 import com.expenditure.planner.formatter.Formater;
 import com.expenditure.planner.formatter.FormaterPayments;
+import com.expenditure.planner.formatter.FormatterInt;
 
 public class PlannerApp {
 
@@ -13,17 +14,19 @@ public class PlannerApp {
         User user = planner.createUser("Vadim", "pass");
 
         DAO<Payment> daoCSVPayment = new DAOCSVPayment();
-        ListOfPayments tablePayments = new ListOfPayments("test");
-        tablePayments.add(daoCSVPayment.getAll());
-        user.addPlanTable(tablePayments);
+        ListOfPayments listOfPayments = new ListOfPayments("plans");
+        listOfPayments.add(daoCSVPayment.getAll());
+        user.addPaymentTable(listOfPayments);
 
         DAO<Transaction> daoTransaction = new DAOCSVTransaction();
-        ListOfTransactions tableTransactions = new ListOfTransactions("cash");
-        // tableTransactions.add
-
-        // user.addCashTable(tableTransactions);
+        ListOfTransactions listOfTransactions = new ListOfTransactions("cash");
+        listOfTransactions.add(daoTransaction.getAll());
+        user.addTransactionTable(listOfTransactions);
 
         Formater<Payment> formater = new FormaterPayments();
-        System.out.println(formater.toString(user.getListOfPlans().get("test").getList()));
+        Formater<Integer> formaterInt = new FormatterInt();
+        ListOfPayments listOfPaymentsOut = user.getListOfPayments().get("plans");
+        System.out.println(formater.listToString(listOfPaymentsOut.getList()));
+        System.out.println(formaterInt.intToString("Summarry", listOfPaymentsOut.getSum()));
     }
 }

@@ -9,7 +9,7 @@ import com.expenditure.planner.User;
 public class FormaterUsers implements Formater<User> {
 
     @Override
-    public String toString(List<User> input) {
+    public String listToString(List<User> input) {
         StringBuilder stringBuilder = new StringBuilder();
         for (User user : input) {
             stringBuilder.append(formatedView(user.getUuid(), user.getName()));
@@ -18,6 +18,12 @@ public class FormaterUsers implements Formater<User> {
     }
 
     private String formatedView(UUID uuid, String name) {
-        return String.format("| %-37s|", uuid.toString()) +  String.format(" %14s |", name)+SEPARATOR_LINE;
+        return String.format("| %-37s|", uuid.toString()) + String.format(" %14s |", name) + SEPARATOR_LINE;
+    }
+
+    @Override
+    public String intToString(String desscription, User input) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

@@ -6,4 +6,13 @@ public class ListOfTransactions extends ListOf<Transaction> {
         super(name);
     }
 
+    @Override
+    public int getSum() {
+        int sum = 0;
+        for (Transaction transaction : getList()) {
+            sum += transaction.getValue();
+        }
+        return sum;
+    }
+
 }
