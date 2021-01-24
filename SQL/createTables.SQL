@@ -5,10 +5,38 @@ CREATE TABLE
              PASSWORD VARCHAR(128) NOT NULL
        );
 
+
 CREATE TABLE
-       plans (
-             PAYMENT_ID VARCHAR(36) NOT NULL PRIMARY KEY,
-             DESCRIPTION VARCHAR(128) NOT NULL,
-             VALUE INT,
-             USER_ID VARCHAR(36) REFERENCES users(USER_ID) ON DELETE CASCADE
+        listofpayments (
+            LIST_ID VARCHAR(36) NOT NULL PRIMARY KEY,
+            DESCRIPTION VARCHAR(128) NOT NULL,    
+            USER_ID VARCHAR(36) REFERENCES users(USER_ID) ON DELETE CASCADE
+        );
+
+
+CREATE TABLE
+        listoftransactions (
+            LIST_ID VARCHAR(36) NOT NULL PRIMARY KEY,
+            DESCRIPTION VARCHAR(128) NOT NULL,    
+            USER_ID VARCHAR(36) REFERENCES users(USER_ID) ON DELETE CASCADE
+        );         
+
+CREATE TABLE
+       payments (
+            PAYMENT_ID VARCHAR(36) NOT NULL PRIMARY KEY,
+            DESCRIPTION VARCHAR(128) NOT NULL,
+            VALUE INT,
+            LIST_ID VARCHAR(36) REFERENCES listofpayments (LIST_ID) ON DELETE CASCADE
        );
+
+
+
+CREATE TABLE
+    transactions (
+            TRANSACTION_ID VARCHAR(128) NOT NULL PRIMARY KEY,
+            DESCRIPTION VARCHAR(128) NOT NULL,
+            VALUE INT,
+            USER_ID VARCHAR(36) REFERENCES users(USER_ID) ON DELETE CASCADE,
+            TRANSACTION_DATE DATE NOT NULL DEFAULT CURRENT_DATE
+    );
+        

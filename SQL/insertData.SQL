@@ -6,16 +6,32 @@ INSERT INTO
     )
 VALUES
     (1, 'Vadim', 'pass'),
-    (2, 'Iryna', 'pass');
+    (2, 'Iryna', 'pass')
+;
+
+
+INSERT INTO
+    listofpayments(
+        LIST_ID,
+        DESCRIPTION,
+        USER_ID
+    )
+VALUES
+    (1,'Vadims Plans',1),
+    (2,'Iryna Plans',2)
+    ;
+
+
 
 INSERT INTO 
-    plans(
+    payments(
         PAYMENT_ID,
         DESCRIPTION,
         VALUE,
-        USER_ID
+        LIST_ID
     )
 VALUES
     (1, 'NOVUS', 125 , 2),
     (2, 'NOVUS', 256 , 2),
-    (3, 'Mobile', 200 , 1);
+    (3, 'Mobile', 200 , 1)
+;

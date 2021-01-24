@@ -15,7 +15,7 @@ public abstract class ListOf<T> {
         list = new LinkedList<T>();
     }
 
-    public abstract int getSum();
+    public abstract Payment getSum();
 
     public void add(T t) {
         list.add(t);

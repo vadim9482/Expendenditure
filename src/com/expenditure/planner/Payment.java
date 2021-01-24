@@ -1,5 +1,7 @@
 package com.expenditure.planner;
 
+import static com.expenditure.planner.Planner.SEPARATOR_LINE;
+
 import java.util.UUID;
 
 public class Payment {
@@ -25,4 +27,8 @@ public class Payment {
         return value;
     }
 
+    public String toString() {
+        return String.format("%-14s", name) + "|" + String.format("%10.2f", ((double) value) / 100) + "|"
+                + SEPARATOR_LINE; 
+    }
 }

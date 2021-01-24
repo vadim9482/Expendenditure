@@ -7,12 +7,19 @@ public class ListOfTransactions extends ListOf<Transaction> {
     }
 
     @Override
-    public int getSum() {
+    public Payment getSum() {
         int sum = 0;
         for (Transaction transaction : getList()) {
             sum += transaction.getValue();
         }
-        return sum;
+        return new Payment("Summary", sum);
     }
 
+    public String toString() {
+        String output = "";
+        for (Transaction transaction : getList()) {
+            output += transaction.toString();
+        }
+        return output;
+    }
 }
