@@ -9,14 +9,14 @@ public class User {
     private String name;
     private String password;
     private Map<String, ListOfPayments> paymentsLibrary;
-    private Map<String, ListOfTransactions> transactionLibrary;
+    private Map<String, ListOfTransactions> transactionsLibrary;
 
     User(String name, String password) {
         this.uuid = UUID.randomUUID();
         this.name = name;
         this.password = password;
         paymentsLibrary = new HashMap<>();
-        transactionLibrary = new HashMap<>();
+        transactionsLibrary = new HashMap<>();
     }
 
     User(String ID, String name, String password) {
@@ -24,7 +24,7 @@ public class User {
         this.name = name;
         this.password = password;
         paymentsLibrary = new HashMap<>();
-        transactionLibrary = new HashMap<>();
+        transactionsLibrary = new HashMap<>();
     }
 
     public boolean checkPassword(String inputPass) {
@@ -36,7 +36,7 @@ public class User {
     }
 
     public void addTransactionTable(ListOfTransactions transactionsTable) {
-        transactionLibrary.put(transactionsTable.getName(), transactionsTable);
+        transactionsLibrary.put(transactionsTable.getName(), transactionsTable);
     }
 
     public UUID getUuid() {
@@ -56,7 +56,7 @@ public class User {
     }
 
     public Map<String, ListOfTransactions> getListOfTransactions() {
-        return transactionLibrary;
+        return transactionsLibrary;
     }
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.expenditure.planner.Payment;
+import com.expenditure.planner.dao.postgres.JDBCPSQLPayment;
 
 public class DAOPayment implements DAO<Payment> {
 
@@ -22,25 +23,25 @@ public class DAOPayment implements DAO<Payment> {
     @Override
     public void save(Payment t) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
-    public void saveAll(List<Payment> t) {
-        // TODO Auto-generated method stub
-        
+    public void saveAll(List<Payment> listPayment) {
+        JDBCPSQLPayment jdbcpsqlPayment = new JDBCPSQLPayment();
+        jdbcpsqlPayment.savePayment(listPayment, "1");
     }
 
     @Override
     public void update(Payment t, String[] params) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void delete(Payment t) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

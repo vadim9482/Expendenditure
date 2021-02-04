@@ -34,21 +34,32 @@ public class JDBCPSQLPayment {
         }
     }
 
-    public void appendPlan(List<Payment> listPayments, String name) {
-        String query = "INSERT INTO " + name + "_payments (ID, NAME, PAYMENT_VALUE) VALUES (?,?,?)";
+    public void savePayment(List<Payment> listPayments, String listID) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        String query = "INSERT INTO payments (PAYMENT_ID, DESCRIPTION, PAYMENT_VALUE, LIST_ID) VALUES (?,?,?,?)";
         int i = 0;
         try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
+            preparedStatement = connection.prepareStatement(query);
             for (Payment payment : listPayments) {
                 preparedStatement.setString(1, payment.getID().toString());
                 preparedStatement.setString(2, payment.getName());
                 preparedStatement.setInt(3, payment.getValue());
+                preparedStatement.setString(4, listID);
                 preparedStatement.executeUpdate();
                 i++;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        finally {
+            try {
+                connection.close();
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         logger.info(i + " Rows were appended");
     }
@@ -90,6 +101,4 @@ public class JDBCPSQLPayment {
         logger.info(i + " Rows were readed");
         return listPayments;
     }
-
-
 }

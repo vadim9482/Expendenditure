@@ -7,7 +7,7 @@ CREATE TABLE
 
 
 CREATE TABLE
-        listofpayments (
+        paymentsLibrary (
             LIST_ID VARCHAR(36) NOT NULL PRIMARY KEY,
             DESCRIPTION VARCHAR(128) NOT NULL,    
             USER_ID VARCHAR(36) REFERENCES users(USER_ID) ON DELETE CASCADE
@@ -15,7 +15,7 @@ CREATE TABLE
 
 
 CREATE TABLE
-        listoftransactions (
+        transactionsLibrary (
             LIST_ID VARCHAR(36) NOT NULL PRIMARY KEY,
             DESCRIPTION VARCHAR(128) NOT NULL,    
             USER_ID VARCHAR(36) REFERENCES users(USER_ID) ON DELETE CASCADE
@@ -25,8 +25,8 @@ CREATE TABLE
        payments (
             PAYMENT_ID VARCHAR(36) NOT NULL PRIMARY KEY,
             DESCRIPTION VARCHAR(128) NOT NULL,
-            VALUE INT,
-            LIST_ID VARCHAR(36) REFERENCES listofpayments (LIST_ID) ON DELETE CASCADE
+            PAYMENT_VALUE INT,
+            LIST_ID VARCHAR(36) REFERENCES paymentsLibrary (LIST_ID) ON DELETE CASCADE
        );
 
 
@@ -36,7 +36,7 @@ CREATE TABLE
             TRANSACTION_ID VARCHAR(128) NOT NULL PRIMARY KEY,
             DESCRIPTION VARCHAR(128) NOT NULL,
             VALUE INT,
-            USER_ID VARCHAR(36) REFERENCES users(USER_ID) ON DELETE CASCADE,
+            LIST_ID VARCHAR(36) REFERENCES transactionsLibrary(LIST_ID) ON DELETE CASCADE,
             TRANSACTION_DATE DATE NOT NULL DEFAULT CURRENT_DATE
     );
         
