@@ -20,6 +20,7 @@ import com.expenditure.planner.UserFactory;
 
 public class JDBCPSQLUser {
     Logger logger = Logger.getLogger(JDBCPSQLUser.class.getName());
+    JDBCPSQLPayment jdbcpsqlPayment = new JDBCPSQLPayment();
 
     public Optional<User> getUser(String userName) {
         Optional<User> userOptional = null;
@@ -111,6 +112,7 @@ public class JDBCPSQLUser {
                 preparedStatement.setString(3, user.getPassword());
                 preparedStatement.executeUpdate();
                 logger.info("User " + user.getName() + " was appended");
+                //jdbcpsqlPayment.savePayment(null, query);
             } else {
                 logger.info("User " + user.getName() + " already exist");
             }

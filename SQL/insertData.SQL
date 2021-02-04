@@ -11,7 +11,7 @@ VALUES
 
 
 INSERT INTO
-    listofpayments(
+    tables(
         LIST_ID,
         DESCRIPTION,
         USER_ID

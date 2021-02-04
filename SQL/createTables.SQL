@@ -7,19 +7,12 @@ CREATE TABLE
 
 
 CREATE TABLE
-        paymentsLibrary (
+        tables (
             LIST_ID VARCHAR(36) NOT NULL PRIMARY KEY,
             DESCRIPTION VARCHAR(128) NOT NULL,    
             USER_ID VARCHAR(36) REFERENCES users(USER_ID) ON DELETE CASCADE
         );
 
-
-CREATE TABLE
-        transactionsLibrary (
-            LIST_ID VARCHAR(36) NOT NULL PRIMARY KEY,
-            DESCRIPTION VARCHAR(128) NOT NULL,    
-            USER_ID VARCHAR(36) REFERENCES users(USER_ID) ON DELETE CASCADE
-        );         
 
 CREATE TABLE
        payments (

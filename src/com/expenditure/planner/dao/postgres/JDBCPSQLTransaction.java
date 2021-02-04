@@ -13,9 +13,9 @@ import java.util.logging.Logger;
 
 import com.expenditure.planner.Transaction;
 
-public class JDBCPSQLPTransaction {
+public class JDBCPSQLTransaction {
     
-    Logger logger = Logger.getLogger(JDBCPSQLPTransaction.class.getName());
+    Logger logger = Logger.getLogger(JDBCPSQLTransaction.class.getName());
     
     
 

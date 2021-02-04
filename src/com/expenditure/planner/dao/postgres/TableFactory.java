@@ -15,6 +15,14 @@ import java.util.logging.Logger;
 public class TableFactory {
     public static Logger logger = Logger.getLogger(JDBCPSQLPayment.class.getName());
 
+    public void createtables() {
+        String tableName = "tables";
+        String query = "CREATE TABLE " + tableName + " (" + "LIST_ID VARCHAR(36) NOT NULL PRIMARY KEY,"
+                + " DESCRIPTION VARCHAR(128) NOT NULL,"
+                + " USER_ID VARCHAR(36) REFERENCES users(USER_ID) ON DELETE CASCADE);";
+        createTable(tableName, query);
+    }
+
     public void createUsersTable() {
         String tableName = "users";
         String query = "CREATE TABLE " + tableName
@@ -77,5 +85,4 @@ public class TableFactory {
             }
         }
     }
-
 }

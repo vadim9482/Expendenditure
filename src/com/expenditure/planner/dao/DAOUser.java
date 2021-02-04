@@ -20,8 +20,9 @@ public class DAOUser implements DAO<User> {
     }
 
     @Override
-    public void save(User t) {
-        jdbcpsqlUser.saveUser(t);
+    public void save(User user) {
+        jdbcpsqlUser.saveUser(user);
+        
     }
 
     @Override

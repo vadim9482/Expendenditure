@@ -58,5 +58,8 @@ public class User {
     public Map<String, ListOfTransactions> getListOfTransactions() {
         return transactionsLibrary;
     }
-
+    
+    public ListOfPayments getPayments (String paymentID) {
+        return paymentsLibrary.get(paymentID);
+    }
 }
