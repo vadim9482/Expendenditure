@@ -1,13 +1,13 @@
 package com.expenditure.planner.dao.csv;
 
+import static com.expenditure.planner.Planner.SEPARATOR_LINE;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-
-import static com.expenditure.planner.Planner.SEPARATOR_LINE;
 
 public class FileToString {
 

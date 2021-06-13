@@ -1,8 +1,8 @@
 package com.expenditure.planner.dao.postgres;
 
-import static com.expenditure.planner.Planner.DATABASE_LOGIN;
-import static com.expenditure.planner.Planner.DATABASE_PASS;
-import static com.expenditure.planner.Planner.DATABASE_URL;
+import static com.expenditure.planner.Planner.ADMIN_DATABASE_LOGIN;
+import static com.expenditure.planner.Planner.ADMIN_DATABASE_PASS;
+import static com.expenditure.planner.Planner.ADMIN_DATABASE_URL;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -57,7 +57,7 @@ public class TableFactory {
         ResultSet resultSet = null;
         Statement statement = null;
         try {
-            connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
+            connection = DriverManager.getConnection(ADMIN_DATABASE_URL, ADMIN_DATABASE_LOGIN, ADMIN_DATABASE_PASS);
             databaseMetaData = connection.getMetaData();
             resultSet = databaseMetaData.getTables(null, null, tableName, null);
             if (resultSet.next()) {

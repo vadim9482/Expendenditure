@@ -1,5 +1,8 @@
 package com.expenditure.planner.dao.csv;
 
+import static com.expenditure.planner.Planner.FILENAME_PLANS;
+import static com.expenditure.planner.Planner.RESOURCE_PATH;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -7,8 +10,6 @@ import java.util.Optional;
 import com.expenditure.planner.Payment;
 import com.expenditure.planner.dao.DAO;
 import com.expenditure.planner.dao.csv.csvparser.ParserPayments;
-import static com.expenditure.planner.Planner.RESOURCE_PATH;
-import static com.expenditure.planner.Planner.FILENAME_PLANS;
 
 public class DAOCSVPayment implements DAO<Payment> {
 

@@ -1,5 +1,7 @@
 package com.expenditure.planner.dao.csv.csvparser;
 
+import static com.expenditure.planner.Planner.FORMAT_DATE;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,8 +12,6 @@ import java.util.Locale;
 
 import com.expenditure.planner.Transaction;
 import com.expenditure.planner.dao.csv.FileToString;
-
-import static com.expenditure.planner.Planner.FORMAT_DATE;
 
 public class ParserTransactions implements Parse<Transaction> {
 

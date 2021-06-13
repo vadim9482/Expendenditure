@@ -1,9 +1,11 @@
 package com.expenditure.planner;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 import com.expenditure.planner.dao.DAO;
+import com.expenditure.planner.dao.DAOAdmin;
 import com.expenditure.planner.dao.DAOPayment;
 import com.expenditure.planner.dao.DAOTransation;
 import com.expenditure.planner.dao.DAOUser;
@@ -12,17 +14,71 @@ import com.expenditure.planner.dao.csv.DAOCSVTransaction;
 import com.expenditure.planner.dao.postgres.TableFactory;
 
 public class Planner {
+
+    public static final String SUPER_ADMIN_URL = "jdbc:postgresql://localhost/";
+    public static final String SUPER_ADMIN_NAME = "postgres";
+    public static final String SUPER_ADMIN_PASS = "postgres";
+
+    public static final String ADMIN_NAME = "adminvadim";
+    public static final String ADMIN_PASSWORD = "password";
+
+    public static final String ADMIN2_NAME = "adminirina";
+    public static final String ADMIN2_PASSWORD = "password";
+
+    public static final String ADMIN3_NAME = "adminyana";
+    public static final String ADMIN3_PASSWORD = "password";
+
+    public static final String ADMIN_DATABASE_LOGIN = "expendenditureadmin";
+    public static final String ADMIN_DATABASE_PASS = "password";
+    public static final String ADMIN_DATABASE_URL = "jdbc:postgresql://localhost/expendenditure";
+
+    public static final String USER_NAME = "Vadim";
+    public static final String USER_PASSWORD = "pass";
+
     public static final String SEPARATOR_LINE = System.lineSeparator();
     public static final String SEPARATOR = ",";
     public static final String FORMAT_DATE = "dd-MMM-yy";
     public static final String FORMAT_MONEY = "0.00";
-    public static final String DATABASE_URL = "jdbc:postgresql://localhost/expendenditure";
-    public static final String DATABASE_LOGIN = "expendenditureadmin";
-    public static final String DATABASE_PASS = "pass";
     public static final String RESOURCE_PATH = "resources";
     public static final String FILENAME_EXPENCES = "expences.csv";
     public static final String FILENAME_CARD_EXPENCES = "cardExpences.csv";
     public static final String FILENAME_PLANS = "plans.csv";
+
+    public static final String DATABASE_NAME = "expendediture";
+
+    public void adminTest() {
+        Admin admin = new Admin(ADMIN_NAME, ADMIN_PASSWORD, SUPER_ADMIN_URL);
+        Admin admin2 = new Admin(ADMIN2_NAME, ADMIN2_PASSWORD, SUPER_ADMIN_URL);
+        Admin admin3 = new Admin(ADMIN3_NAME, ADMIN3_PASSWORD, SUPER_ADMIN_URL);
+        List<Admin> admins = new LinkedList<>();
+        admins.add(admin);
+        admins.add(admin2);
+        DAO<Admin> daoAdmin = new DAOAdmin();
+
+        daoAdmin.saveAll(admins);
+        daoAdmin.update(admin2, new String[] { admin3.getName(), admin3.getPassword() });
+        
+        daoAdmin.delete(admin);
+        daoAdmin.delete(admin2);
+        daoAdmin.delete(admin3);
+        /*
+         * DataBase dataBase = new DataBase(dataBaseName, admin.getName());
+         * DAO<DataBase> daoDataBase = new DAODataBase(); daoDataBase.save(dataBase);
+         * daoDataBase.delete(dataBase); UserFactory userFactory = new UserFactory();
+         * User user = userFactory.createUser(userName, password); DAO<User> daoUser =
+         * new DAOUser(); daoUser.save(user); daoUser.delete(user); DAO<Payment>
+         * daoPayment = new DAOCSVPayment(); ListOfPayments listOfPayments = new
+         * ListOfPayments(plans); listOfPayments.add(daoPayment.getAll());
+         * user.addPaymentTable(listOfPayments);
+         * System.out.println(user.getPayments(plans)); JDBCPSQLTables jdbcpsqlTables =
+         * new JDBCPSQLTables(); JDBCPSQLPayment jdbcpsqlPayment = new
+         * JDBCPSQLPayment(); JDBCPSQLUser jdbcpsqlUser = new JDBCPSQLUser(); User
+         * userDB = jdbcpsqlUser.getUser(userName).get();
+         * jdbcpsqlTables.appendTableInfo(user.getPayments(plans).getUuid().toString(),
+         * user.getPayments(plans).getName(), userDB.getUuid().toString()); //
+         * jdbcpsqlPayment.savePayment(user.getPayments(plans).getList(), plans);
+         */
+    }
 
     public void initDB() {
         TableFactory tableFactory = new TableFactory();

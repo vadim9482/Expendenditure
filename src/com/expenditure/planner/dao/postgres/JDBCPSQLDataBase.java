@@ -10,26 +10,28 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
-public class JDBCPSQLTables {
-    Logger logger = Logger.getLogger(JDBCPSQLTables.class.getName());
+public class JDBCPSQLDataBase {
 
-    public void appendTableInfo(String ID, String name, String userID) {
-        String query = "INSERT INTO tables(LIST_ID, DESCRIPTION, USER_ID) VALUES (?,?,?);";
+    Logger logger = Logger.getLogger(JDBCPSQLDataBase.class.getName());
+
+    public void saveDataBase(String name, String password) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        String query = "CREATE USER " + name + "WITH " + "CREATEDB PASSWORD " + "'" + password + "';" + "SET ROLE "
+                + name + ";" + "CREATE DATABASE " + "PAYMENTS" + name + " OWNER " + name + ";";
         try {
             connection = DriverManager.getConnection(ADMIN_DATABASE_URL, ADMIN_DATABASE_LOGIN, ADMIN_DATABASE_PASS);
             preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, ID);
-            preparedStatement.setString(2, name);
-            preparedStatement.setString(3, userID);
-            preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate(query);
+            connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {
-                connection.close();
-                preparedStatement.close();
+                if (connection != null)
+                    connection.close();
+                if (preparedStatement!=null)
+                    preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }

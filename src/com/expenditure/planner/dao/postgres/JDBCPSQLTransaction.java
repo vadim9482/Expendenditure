@@ -1,8 +1,8 @@
 package com.expenditure.planner.dao.postgres;
 
-import static com.expenditure.planner.Planner.DATABASE_LOGIN;
-import static com.expenditure.planner.Planner.DATABASE_PASS;
-import static com.expenditure.planner.Planner.DATABASE_URL;
+import static com.expenditure.planner.Planner.ADMIN_DATABASE_LOGIN;
+import static com.expenditure.planner.Planner.ADMIN_DATABASE_PASS;
+import static com.expenditure.planner.Planner.ADMIN_DATABASE_URL;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,7 +23,7 @@ public class JDBCPSQLTransaction {
         String query = "INSERT INTO transactions (ID, NAME, PAYMENT_VALUE) VALUES (?,?,?)";
         int i = 0;
         try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_LOGIN, DATABASE_PASS);
+            Connection connection = DriverManager.getConnection(ADMIN_DATABASE_URL, ADMIN_DATABASE_LOGIN, ADMIN_DATABASE_PASS);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             for (Transaction transaction : transactions) {
                 preparedStatement.setString(1, transaction.getID().toString());

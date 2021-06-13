@@ -22,7 +22,6 @@ public class DAOUser implements DAO<User> {
     @Override
     public void save(User user) {
         jdbcpsqlUser.saveUser(user);
-        
     }
 
     @Override
@@ -37,8 +36,6 @@ public class DAOUser implements DAO<User> {
 
     @Override
     public void delete(User t) {
-        // TODO Auto-generated method stub
-
     }
 
 }
