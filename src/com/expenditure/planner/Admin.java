@@ -5,11 +5,10 @@ public class Admin {
     String password;
     String url;
 
-    public Admin(String name, String password, String url) {
+    public Admin(String name, String password) {
         super();
         this.name = name;
         this.password = password;
-        this.url = url;
     }
 
     public String getName() {
@@ -19,9 +18,4 @@ public class Admin {
     public String getPassword() {
         return password;
     }
-
-    public String getUrl() {
-        return url;
-    }
-
 }

@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.expenditure.planner.dao.DAO;
 import com.expenditure.planner.dao.DAOAdmin;
+import com.expenditure.planner.dao.DAODataBase;
 import com.expenditure.planner.dao.DAOPayment;
 import com.expenditure.planner.dao.DAOTransation;
 import com.expenditure.planner.dao.DAOUser;
@@ -45,41 +46,38 @@ public class Planner {
     public static final String FILENAME_PLANS = "plans.csv";
 
     public static final String DATABASE_NAME = "expendediture";
+    public static final String DATABASE_PASSWORD = "expendediture";
 
-    public void adminTest() {
-        Admin admin = new Admin(ADMIN_NAME, ADMIN_PASSWORD, SUPER_ADMIN_URL);
-        Admin admin2 = new Admin(ADMIN2_NAME, ADMIN2_PASSWORD, SUPER_ADMIN_URL);
-        Admin admin3 = new Admin(ADMIN3_NAME, ADMIN3_PASSWORD, SUPER_ADMIN_URL);
+    public void adminDataBaseTest() {
+        Admin admin = new Admin(ADMIN_NAME, ADMIN_PASSWORD);
+        Admin admin2 = new Admin(ADMIN2_NAME, ADMIN2_PASSWORD);
+        Admin admin3 = new Admin(ADMIN3_NAME, ADMIN3_PASSWORD);
         List<Admin> admins = new LinkedList<>();
         admins.add(admin);
         admins.add(admin2);
         DAO<Admin> daoAdmin = new DAOAdmin();
-
         daoAdmin.saveAll(admins);
         daoAdmin.update(admin2, new String[] { admin3.getName(), admin3.getPassword() });
-        
+        dataBaseTests(DATABASE_NAME, DATABASE_PASSWORD, admin);
         daoAdmin.delete(admin);
         daoAdmin.delete(admin2);
         daoAdmin.delete(admin3);
-        /*
-         * DataBase dataBase = new DataBase(dataBaseName, admin.getName());
-         * DAO<DataBase> daoDataBase = new DAODataBase(); daoDataBase.save(dataBase);
-         * daoDataBase.delete(dataBase); UserFactory userFactory = new UserFactory();
-         * User user = userFactory.createUser(userName, password); DAO<User> daoUser =
-         * new DAOUser(); daoUser.save(user); daoUser.delete(user); DAO<Payment>
-         * daoPayment = new DAOCSVPayment(); ListOfPayments listOfPayments = new
-         * ListOfPayments(plans); listOfPayments.add(daoPayment.getAll());
-         * user.addPaymentTable(listOfPayments);
-         * System.out.println(user.getPayments(plans)); JDBCPSQLTables jdbcpsqlTables =
-         * new JDBCPSQLTables(); JDBCPSQLPayment jdbcpsqlPayment = new
-         * JDBCPSQLPayment(); JDBCPSQLUser jdbcpsqlUser = new JDBCPSQLUser(); User
-         * userDB = jdbcpsqlUser.getUser(userName).get();
-         * jdbcpsqlTables.appendTableInfo(user.getPayments(plans).getUuid().toString(),
-         * user.getPayments(plans).getName(), userDB.getUuid().toString()); //
-         * jdbcpsqlPayment.savePayment(user.getPayments(plans).getList(), plans);
-         */
     }
 
+    public void dataBaseTests(String name, String password, Admin admin) {
+        DataBase dataBase = new DataBase(name, password, admin);
+        DAO<DataBase> daoDataBase = new DAODataBase();
+        daoDataBase.save(dataBase);
+        daoDataBase.delete(dataBase);
+    }
+
+    public void userTest () {
+        User user = new User(USER_NAME, USER_PASSWORD);
+        DAO<User> daoUser = new DAOUser();
+        daoUser.save(user);
+        
+    }
+    
     public void initDB() {
         TableFactory tableFactory = new TableFactory();
         tableFactory.createUsersTable();

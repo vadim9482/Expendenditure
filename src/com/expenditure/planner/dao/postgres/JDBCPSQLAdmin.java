@@ -76,9 +76,11 @@ public class JDBCPSQLAdmin {
             preparedStatement = connection.prepareStatement(checkQuery);
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) {
+                resultSet.close();
                 preparedStatement.close();
                 preparedStatement = connection.prepareStatement(query);
                 preparedStatement.executeUpdate();
+                logger.info("Administrator: " + admin.getName() + " already renamed to " + params[0]);
             } else {
                 logger.info("Administrator: " + params[0] + " already exist");
             }
@@ -109,6 +111,7 @@ public class JDBCPSQLAdmin {
             preparedStatement = connection.prepareStatement(checkQuery);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
+                resultSet.close();
                 preparedStatement.close();
                 preparedStatement = connection.prepareStatement(query);
                 preparedStatement.executeUpdate();

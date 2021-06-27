@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.expenditure.planner.DataBase;
+import com.expenditure.planner.dao.postgres.JDBCPSQLDataBase;
 
 public class DAODataBase implements DAO<DataBase> {
 
@@ -21,7 +22,8 @@ public class DAODataBase implements DAO<DataBase> {
 
     @Override
     public void save(DataBase dataBase) {
-        System.out.println(dataBase.getName() + " " + dataBase.getPassword());
+        JDBCPSQLDataBase jdbcpsqlDataBase = new JDBCPSQLDataBase();
+        jdbcpsqlDataBase.saveDataBase(dataBase.getName(), dataBase.getPassword(), dataBase.getAdmin());
     }
 
     @Override
@@ -37,9 +39,8 @@ public class DAODataBase implements DAO<DataBase> {
     }
 
     @Override
-    public void delete(DataBase t) {
-        // TODO Auto-generated method stub
-
+    public void delete(DataBase dataBase) {
+        JDBCPSQLDataBase jdbcpsqlDataBase = new JDBCPSQLDataBase();
+        jdbcpsqlDataBase.deleteDataBase(dataBase.getName(), dataBase.getPassword(), dataBase.getAdmin());
     }
-
 }

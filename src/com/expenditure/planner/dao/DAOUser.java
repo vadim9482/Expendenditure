@@ -7,20 +7,22 @@ import com.expenditure.planner.User;
 import com.expenditure.planner.dao.postgres.JDBCPSQLUser;
 
 public class DAOUser implements DAO<User> {
-    JDBCPSQLUser jdbcpsqlUser = new JDBCPSQLUser();
 
     @Override
     public Optional<User> get(String name) {
+        JDBCPSQLUser jdbcpsqlUser = new JDBCPSQLUser();
         return jdbcpsqlUser.getUser(name);
     }
 
     @Override
     public List<User> getAll() {
+        JDBCPSQLUser jdbcpsqlUser = new JDBCPSQLUser();
         return jdbcpsqlUser.getAllUsers();
     }
 
     @Override
     public void save(User user) {
+        JDBCPSQLUser jdbcpsqlUser = new JDBCPSQLUser();
         jdbcpsqlUser.saveUser(user);
     }
 
@@ -31,11 +33,10 @@ public class DAOUser implements DAO<User> {
     @Override
     public void update(User t, String[] params) {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public void delete(User t) {
+        
     }
-
 }
