@@ -1,8 +1,8 @@
 package com.expenditure.planner.dao.postgres;
 
-import static com.expenditure.planner.Planner.SUPER_ADMIN_URL;
-import static com.expenditure.planner.Planner.SUPER_ADMIN_NAME;
-import static com.expenditure.planner.Planner.SUPER_ADMIN_PASS;
+import static com.expenditure.planner.Planner.SUPER_DATABASE_URL;
+import static com.expenditure.planner.Planner.SUPER_DATABASE_NAME;
+import static com.expenditure.planner.Planner.SUPER_DATABASE_PASS;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,7 +24,7 @@ public class JDBCPSQLDataBase {
         String checkQuery = "SELECT 1 FROM pg_database WHERE datname ='" + name + "'";
         String query = "SET ROLE " + admin.getName() + ";" + "DROP DATABASE " + name + ";";
         try {
-            connection = DriverManager.getConnection(SUPER_ADMIN_URL, SUPER_ADMIN_NAME, SUPER_ADMIN_PASS);
+            connection = DriverManager.getConnection(SUPER_DATABASE_URL, SUPER_DATABASE_NAME, SUPER_DATABASE_PASS);
             preparedStatement = connection.prepareStatement(checkQuery);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -62,7 +62,7 @@ public class JDBCPSQLDataBase {
         String query = "SET ROLE " + admin.getName() + ";" + "CREATE DATABASE " + name + " OWNER " + admin.getName()
                 + ";";
         try {
-            connection = DriverManager.getConnection(SUPER_ADMIN_URL, SUPER_ADMIN_NAME, SUPER_ADMIN_PASS);
+            connection = DriverManager.getConnection(SUPER_DATABASE_URL, SUPER_DATABASE_NAME, SUPER_DATABASE_PASS);
             preparedStatement = connection.prepareStatement(checkQuery);
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) {

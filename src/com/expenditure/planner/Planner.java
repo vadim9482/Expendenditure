@@ -8,6 +8,7 @@ import com.expenditure.planner.dao.DAO;
 import com.expenditure.planner.dao.DAOAdmin;
 import com.expenditure.planner.dao.DAODataBase;
 import com.expenditure.planner.dao.DAOPayment;
+import com.expenditure.planner.dao.DAOTables;
 import com.expenditure.planner.dao.DAOTransation;
 import com.expenditure.planner.dao.DAOUser;
 import com.expenditure.planner.dao.csv.DAOCSVPayment;
@@ -16,9 +17,9 @@ import com.expenditure.planner.dao.postgres.TableFactory;
 
 public class Planner {
 
-    public static final String SUPER_ADMIN_URL = "jdbc:postgresql://localhost/";
-    public static final String SUPER_ADMIN_NAME = "postgres";
-    public static final String SUPER_ADMIN_PASS = "postgres";
+    public static final String SUPER_DATABASE_URL = "jdbc:postgresql://localhost/";
+    public static final String SUPER_DATABASE_NAME = "postgres";
+    public static final String SUPER_DATABASE_PASS = "postgres";
 
     public static final String ADMIN_NAME = "adminvadim";
     public static final String ADMIN_PASSWORD = "password";
@@ -29,24 +30,21 @@ public class Planner {
     public static final String ADMIN3_NAME = "adminyana";
     public static final String ADMIN3_PASSWORD = "password";
 
-    public static final String ADMIN_DATABASE_LOGIN = "expendenditureadmin";
-    public static final String ADMIN_DATABASE_PASS = "password";
-    public static final String ADMIN_DATABASE_URL = "jdbc:postgresql://localhost/expendenditure";
+    public static final String DATABASE_NAME = "expendenditure";
+    public static final String DATABASE_PASSWORD = "password";
+    public static final String DATABASE_URL = "jdbc:postgresql://localhost/" + DATABASE_NAME;
 
     public static final String USER_NAME = "Vadim";
     public static final String USER_PASSWORD = "pass";
 
     public static final String SEPARATOR_LINE = System.lineSeparator();
-    public static final String SEPARATOR = ",";
+    public static final String SEPARATOR_CSV = ",";
     public static final String FORMAT_DATE = "dd-MMM-yy";
     public static final String FORMAT_MONEY = "0.00";
     public static final String RESOURCE_PATH = "resources";
     public static final String FILENAME_EXPENCES = "expences.csv";
     public static final String FILENAME_CARD_EXPENCES = "cardExpences.csv";
     public static final String FILENAME_PLANS = "plans.csv";
-
-    public static final String DATABASE_NAME = "expendediture";
-    public static final String DATABASE_PASSWORD = "expendediture";
 
     public void adminDataBaseTest() {
         Admin admin = new Admin(ADMIN_NAME, ADMIN_PASSWORD);
@@ -68,16 +66,23 @@ public class Planner {
         DataBase dataBase = new DataBase(name, password, admin);
         DAO<DataBase> daoDataBase = new DAODataBase();
         daoDataBase.save(dataBase);
+        tableTest();
         daoDataBase.delete(dataBase);
     }
 
-    public void userTest () {
-        User user = new User(USER_NAME, USER_PASSWORD);
+    public void tableTest() {
+        Table table = new Table("users");
+        DAO<Table> daoTable = new DAOTables();
+        daoTable.save(table);
+        daoTable.delete(table);
+    }
+
+    public void userTest(User user) {
         DAO<User> daoUser = new DAOUser();
         daoUser.save(user);
-        
+        daoUser.delete(user);
     }
-    
+
     public void initDB() {
         TableFactory tableFactory = new TableFactory();
         tableFactory.createUsersTable();

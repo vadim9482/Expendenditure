@@ -1,8 +1,8 @@
 package com.expenditure.planner.dao.postgres;
 
-import static com.expenditure.planner.Planner.ADMIN_DATABASE_LOGIN;
-import static com.expenditure.planner.Planner.ADMIN_DATABASE_PASS;
-import static com.expenditure.planner.Planner.ADMIN_DATABASE_URL;
+import static com.expenditure.planner.Planner.DATABASE_URL;
+import static com.expenditure.planner.Planner.DATABASE_NAME;
+import static com.expenditure.planner.Planner.DATABASE_PASSWORD;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,7 +26,7 @@ public class JDBCPSQLPayment {
 
         String query = "INSERT INTO payments(NAME, VALUE) VALUES(?, ?)";
         try {
-            connection = DriverManager.getConnection(ADMIN_DATABASE_URL, ADMIN_DATABASE_LOGIN, ADMIN_DATABASE_PASS);
+            connection = DriverManager.getConnection(DATABASE_URL, DATABASE_NAME, DATABASE_PASSWORD);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, payment.getName());
             preparedStatement.setInt(1, payment.getValue());
@@ -42,7 +42,7 @@ public class JDBCPSQLPayment {
         String query = "INSERT INTO payments (PAYMENT_ID, DESCRIPTION, PAYMENT_VALUE, LIST_ID) VALUES (?,?,?,?)";
         int i = 0;
         try {
-            connection = DriverManager.getConnection(ADMIN_DATABASE_URL, ADMIN_DATABASE_LOGIN, ADMIN_DATABASE_PASS);
+            connection = DriverManager.getConnection(DATABASE_URL, DATABASE_NAME, DATABASE_PASSWORD);
             preparedStatement = connection.prepareStatement(query);
             for (Payment payment : listPayments) {
                 preparedStatement.setString(1, payment.getID().toString());
@@ -69,7 +69,7 @@ public class JDBCPSQLPayment {
     public boolean connectCheck() {
         boolean flag = false;
         try {
-            Connection connection = DriverManager.getConnection(ADMIN_DATABASE_URL, ADMIN_DATABASE_LOGIN, ADMIN_DATABASE_PASS);
+            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_NAME, DATABASE_PASSWORD);
             Statement statement = connection.createStatement();
             if (connection != null) {
                 logger.info("Connected to PostgreSQL server");
@@ -90,7 +90,7 @@ public class JDBCPSQLPayment {
         String query = "SELECT * FROM PAYMENTS;";
         int i = 0;
         try {
-            Connection connection = DriverManager.getConnection(ADMIN_DATABASE_URL, ADMIN_DATABASE_LOGIN, ADMIN_DATABASE_PASS);
+            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_NAME, DATABASE_PASSWORD);
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {

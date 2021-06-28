@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.expenditure.planner.Admin;
-import static com.expenditure.planner.Planner.SUPER_ADMIN_URL;
-import static com.expenditure.planner.Planner.SUPER_ADMIN_NAME;
-import static com.expenditure.planner.Planner.SUPER_ADMIN_PASS;
+import static com.expenditure.planner.Planner.SUPER_DATABASE_URL;
+import static com.expenditure.planner.Planner.SUPER_DATABASE_NAME;
+import static com.expenditure.planner.Planner.SUPER_DATABASE_PASS;
 
 public class JDBCPSQLAdmin {
 
@@ -34,7 +34,7 @@ public class JDBCPSQLAdmin {
         String checkQuery = "SELECT 1 FROM pg_roles WHERE rolname='" + admin.getName() + "'";
         String query = "CREATE USER " + admin.getName() + " WITH CREATEDB PASSWORD '" + admin.getPassword() + "';";
         try {
-            connection = DriverManager.getConnection(SUPER_ADMIN_URL, SUPER_ADMIN_NAME, SUPER_ADMIN_PASS);
+            connection = DriverManager.getConnection(SUPER_DATABASE_URL, SUPER_DATABASE_NAME, SUPER_DATABASE_PASS);
             preparedStatement = connection.prepareStatement(checkQuery);
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) {
@@ -72,7 +72,7 @@ public class JDBCPSQLAdmin {
         String query = "ALTER ROLE " + admin.getName() + " RENAME TO " + params[0] + "; " + "ALTER ROLE " + params[0]
                 + " WITH PASSWORD '" + params[1] + "';";
         try {
-            connection = DriverManager.getConnection(SUPER_ADMIN_URL, SUPER_ADMIN_NAME, SUPER_ADMIN_PASS);
+            connection = DriverManager.getConnection(SUPER_DATABASE_URL, SUPER_DATABASE_NAME, SUPER_DATABASE_PASS);
             preparedStatement = connection.prepareStatement(checkQuery);
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) {
@@ -107,7 +107,7 @@ public class JDBCPSQLAdmin {
         String checkQuery = "SELECT 1 FROM pg_roles WHERE rolname='" + admin.getName() + "'";
         String query = "SET ROLE postgres; DROP ROLE " + admin.getName() + ";";
         try {
-            connection = DriverManager.getConnection(SUPER_ADMIN_URL, SUPER_ADMIN_NAME, SUPER_ADMIN_PASS);
+            connection = DriverManager.getConnection(SUPER_DATABASE_URL, SUPER_DATABASE_NAME, SUPER_DATABASE_PASS);
             preparedStatement = connection.prepareStatement(checkQuery);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {

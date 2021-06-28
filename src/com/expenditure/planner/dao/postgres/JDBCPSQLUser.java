@@ -1,8 +1,10 @@
 package com.expenditure.planner.dao.postgres;
 
-import static com.expenditure.planner.Planner.ADMIN_DATABASE_LOGIN;
-import static com.expenditure.planner.Planner.ADMIN_DATABASE_PASS;
-import static com.expenditure.planner.Planner.ADMIN_DATABASE_URL;
+import static com.expenditure.planner.Planner.DATABASE_URL;
+import static com.expenditure.planner.Planner.DATABASE_NAME;
+import static com.expenditure.planner.Planner.DATABASE_PASSWORD;
+import static com.expenditure.planner.Planner.ADMIN_NAME;
+import static com.expenditure.planner.Planner.ADMIN_PASSWORD;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,7 +30,7 @@ public class JDBCPSQLUser {
         ResultSet resultSet = null;
         String query = "SELECT * FROM users WHERE NAME='" + userName + "';";
         try {
-            connection = DriverManager.getConnection(ADMIN_DATABASE_URL, ADMIN_DATABASE_LOGIN, ADMIN_DATABASE_PASS);
+            connection = DriverManager.getConnection(DATABASE_URL, DATABASE_NAME, DATABASE_PASSWORD);
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -64,7 +66,7 @@ public class JDBCPSQLUser {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            connection = DriverManager.getConnection(ADMIN_DATABASE_URL, ADMIN_DATABASE_LOGIN, ADMIN_DATABASE_PASS);
+            connection = DriverManager.getConnection(DATABASE_URL, ADMIN_NAME, ADMIN_PASSWORD);
             preparedStatement = connection.prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -97,7 +99,7 @@ public class JDBCPSQLUser {
         String checkQuery = "SELECT * FROM users WHERE NAME='" + user.getName() + "';";
         String query = "INSERT INTO users (USER_ID, NAME, PASSWORD) VALUES (?,?,?)";
         try {
-            connection = DriverManager.getConnection(ADMIN_DATABASE_URL, ADMIN_DATABASE_LOGIN, ADMIN_DATABASE_PASS);
+            connection = DriverManager.getConnection(DATABASE_URL, ADMIN_NAME, ADMIN_PASSWORD);
             preparedStatement = connection.prepareStatement(checkQuery);
             resultSet = preparedStatement.executeQuery();
             if (!resultSet.next()) {
@@ -130,4 +132,26 @@ public class JDBCPSQLUser {
         }
     }
 
+    public void appendTableInfo(String ID, String name, String userID) {
+        String query = "INSERT INTO tables(LIST_ID, DESCRIPTION, USER_ID) VALUES (?,?,?);";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DriverManager.getConnection(DATABASE_URL, DATABASE_NAME, DATABASE_PASSWORD);
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, ID);
+            preparedStatement.setString(2, name);
+            preparedStatement.setString(3, userID);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+                preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
