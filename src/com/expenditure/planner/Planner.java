@@ -68,10 +68,10 @@ public class Planner {
         DAO<DataBase> daoDataBase = new DAODataBase();
         daoDataBase.save(dataBase);
         TableFactory tableFactory = new TableFactory();
-        tableFactory.createUsersTable();
-        tableFactory.createPlansTable();
-        tableFactory.createCardTable();
-        tableFactory.createCashTable();
+        tableFactory.createTableUsers();
+        tableFactory.createTablePlans();
+        tableFactory.createTableCard();
+        tableFactory.createTableCash();
         DAO<User> daoUser = new DAOUser();
         User user = new User(USER_NAME, USER_PASSWORD);
         daoUser.save(user);
