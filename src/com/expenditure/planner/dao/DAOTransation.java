@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import com.expenditure.planner.Transaction;
 
-public class DAOTransation implements DAO<Transaction>{
+public class DAOTransation implements DAO<Transaction> {
 
     @Override
     public Optional<Transaction> get(String name) {
@@ -22,25 +22,30 @@ public class DAOTransation implements DAO<Transaction>{
     @Override
     public void save(Transaction t) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void saveAll(List<Transaction> t) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void update(Transaction t, String[] params) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void delete(Transaction t) {
         // TODO Auto-generated method stub
-        
+
     }
 
+    @Override
+    public void deleteAll(List<Transaction> t) {
+        // TODO Auto-generated method stub
+
+    }
 }

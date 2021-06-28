@@ -39,4 +39,10 @@ public class DAOUser implements DAO<User> {
     public void delete(User t) {
         
     }
+
+    @Override
+    public void deleteAll(List<User> t) {
+        // TODO Auto-generated method stub
+        
+    }
 }

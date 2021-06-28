@@ -29,26 +29,21 @@ public class DAOCSVPayment implements DAO<Payment> {
 
     @Override
     public void save(Payment t) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void saveAll(List<Payment> t) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void update(Payment t, String[] params) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void delete(Payment t) {
-        // TODO Auto-generated method stub
-
     }
 
+    @Override
+    public void deleteAll(List<Payment> t) {
+    }
 }

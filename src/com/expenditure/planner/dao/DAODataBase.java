@@ -43,4 +43,10 @@ public class DAODataBase implements DAO<DataBase> {
         JDBCPSQLDataBase jdbcpsqlDataBase = new JDBCPSQLDataBase();
         jdbcpsqlDataBase.deleteDataBase(dataBase.getName(), dataBase.getPassword(), dataBase.getAdmin());
     }
+
+    @Override
+    public void deleteAll(List<DataBase> t) {
+        // TODO Auto-generated method stub
+        
+    }
 }

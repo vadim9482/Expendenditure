@@ -30,26 +30,22 @@ public class DAOCSVTransaction implements DAO<Transaction> {
 
     @Override
     public void save(Transaction t) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void saveAll(List<Transaction> t) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void update(Transaction t, String[] params) {
-        // TODO Auto-generated method stub
-
     }
 
     @Override
     public void delete(Transaction t) {
-        // TODO Auto-generated method stub
-
     }
 
+    @Override
+    public void deleteAll(List<Transaction> t) {
+        // TODO Auto-generated method stub
+    }
 }

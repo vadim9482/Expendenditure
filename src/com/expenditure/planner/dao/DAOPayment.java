@@ -44,4 +44,10 @@ public class DAOPayment implements DAO<Payment> {
 
     }
 
+    @Override
+    public void deleteAll(List<Payment> t) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

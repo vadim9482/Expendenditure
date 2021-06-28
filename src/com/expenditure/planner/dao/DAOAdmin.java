@@ -10,13 +10,11 @@ public class DAOAdmin implements DAO<Admin> {
 
     @Override
     public Optional<Admin> get(String name) {
-        // TODO Auto-generated method stub
         return null;
     }
 
     @Override
     public List<Admin> getAll() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -43,5 +41,9 @@ public class DAOAdmin implements DAO<Admin> {
     public void delete(Admin admin) {
         JDBCPSQLAdmin jdbcpsqlAdmin = new JDBCPSQLAdmin();
         jdbcpsqlAdmin.deleteAdmin(admin);
+    }
+
+    @Override
+    public void deleteAll(List<Admin> t) {
     }
 }
