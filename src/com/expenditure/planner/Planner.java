@@ -37,9 +37,10 @@ public class Planner {
     public static final String DATABASE_URL = "jdbc:postgresql://localhost/" + DATABASE_NAME;
 
     public static final String USER_NAME = "Vadim";
-    public static final String USER_PASSWORD = "pass";
+    public static final String USER_PASSWORD = "password";
 
     public static final String USER2_NAME = "Yana";
+    public static final String USER2_PASSWORD = "password";
 
     public static final String TABLE_USERS = "users";
     public static final String TABLE_PAYMENTS = "payments";
@@ -75,6 +76,7 @@ public class Planner {
         DAO<User> daoUser = new DAOUser();
         User user = new User(USER_NAME, USER_PASSWORD);
         daoUser.save(user);
+
         Optional<User> userOptional = daoUser.get(USER_NAME);
         User userDB = null;
         if (userOptional != null) {
@@ -83,7 +85,7 @@ public class Planner {
         } else {
             System.out.println("USER: " + USER2_NAME + " doesn't exist");
         }
-        
+
         daoUser.delete(user);
         tableFactory.deleteTableCash();
         tableFactory.deleteTableCard();
@@ -100,7 +102,10 @@ public class Planner {
      * tableFactory.createCashTable(); tableFactory.createCardTable(); }
      * 
      * public void testShowUserAll() { DAO<User> daoUser = new DAOUser(); List<User>
-     * users = daoUser.getAll(); System.out.println(users); }
+     * users = daoUser.getAll(); System.out.println(users);
+     * 
+     * 
+     * }
      * 
      * public User testReadUser(String name) { User user = null; DAO<User> daoUser =
      * new DAOUser(); Optional<User> optional = daoUser.get(name); if (optional !=

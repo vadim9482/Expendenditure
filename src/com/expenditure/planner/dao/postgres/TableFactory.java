@@ -116,7 +116,7 @@ public class TableFactory {
                 logger.info("TABLE: " + tableName + " doesn't exist");
             }
         } catch (SQLException e) {
-         //   logger.info(e.toString());
+            logger.info(e.toString());
         } finally {
             try {
                 if (connection != null) {
@@ -129,7 +129,7 @@ public class TableFactory {
                     preparedStatement.close();
                 }
             } catch (SQLException e) {
-           //     logger.info(e.toString());
+                logger.info(e.toString());
             }
         }
     }

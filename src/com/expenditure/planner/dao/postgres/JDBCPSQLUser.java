@@ -1,8 +1,6 @@
 package com.expenditure.planner.dao.postgres;
 
 import static com.expenditure.planner.Planner.DATABASE_URL;
-import static com.expenditure.planner.Planner.DATABASE_NAME;
-import static com.expenditure.planner.Planner.DATABASE_PASSWORD;
 import static com.expenditure.planner.Planner.ADMIN_NAME;
 import static com.expenditure.planner.Planner.ADMIN_PASSWORD;
 
@@ -129,28 +127,5 @@ public class JDBCPSQLUser {
             }
         }
         return users;
-    }
-
-    public void appendTableInfo(String ID, String name, String userID) {
-        String query = "INSERT INTO tables(LIST_ID, DESCRIPTION, USER_ID) VALUES (?,?,?);";
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        try {
-            connection = DriverManager.getConnection(DATABASE_URL, DATABASE_NAME, DATABASE_PASSWORD);
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, ID);
-            preparedStatement.setString(2, name);
-            preparedStatement.setString(3, userID);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                connection.close();
-                preparedStatement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }

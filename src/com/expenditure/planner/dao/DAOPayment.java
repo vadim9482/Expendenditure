@@ -29,7 +29,7 @@ public class DAOPayment implements DAO<Payment> {
     @Override
     public void saveAll(List<Payment> listPayment) {
         JDBCPSQLPayment jdbcpsqlPayment = new JDBCPSQLPayment();
-        jdbcpsqlPayment.savePayment(listPayment, "1");
+        jdbcpsqlPayment.saveAllPayments(listPayment, "1");
     }
 
     @Override

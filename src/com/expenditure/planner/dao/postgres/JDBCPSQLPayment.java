@@ -9,7 +9,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -21,22 +20,30 @@ public class JDBCPSQLPayment {
     Logger logger = Logger.getLogger(JDBCPSQLPayment.class.getName());
 
     public void savePayment(Payment payment) {
-        
         Connection connection = null;
-
+        PreparedStatement preparedStatement = null;
         String query = "INSERT INTO payments(NAME, VALUE) VALUES(?, ?)";
         try {
             connection = DriverManager.getConnection(DATABASE_URL, DATABASE_NAME, DATABASE_PASSWORD);
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, payment.getName());
             preparedStatement.setInt(1, payment.getValue());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null)
+                    connection.close();
+                if (preparedStatement != null)
+                    preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void savePayment(List<Payment> listPayments, String listID) {
+    public void saveAllPayments(List<Payment> listPayments, String listID) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         String query = "INSERT INTO payments (PAYMENT_ID, DESCRIPTION, PAYMENT_VALUE, LIST_ID) VALUES (?,?,?,?)";
@@ -54,11 +61,12 @@ public class JDBCPSQLPayment {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
-                connection.close();
-                preparedStatement.close();
+                if (connection != null)
+                    connection.close();
+                if (preparedStatement != null)
+                    preparedStatement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -66,39 +74,34 @@ public class JDBCPSQLPayment {
         logger.info(i + " Rows were appended");
     }
 
-    public boolean connectCheck() {
-        boolean flag = false;
-        try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_NAME, DATABASE_PASSWORD);
-            Statement statement = connection.createStatement();
-            if (connection != null) {
-                logger.info("Connected to PostgreSQL server");
-                flag = true;
-            }
-            ResultSet resultSet = statement.executeQuery("SELECT VERSION()");
-            if (resultSet.next()) {
-                logger.info(resultSet.getString(1));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return flag;
-    }
-
     public List<Payment> getAllPayments(String name) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
         List<Payment> listPayments = new ArrayList<>();
         String query = "SELECT * FROM PAYMENTS;";
         int i = 0;
         try {
-            Connection connection = DriverManager.getConnection(DATABASE_URL, DATABASE_NAME, DATABASE_PASSWORD);
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            connection = DriverManager.getConnection(DATABASE_URL, DATABASE_NAME, DATABASE_PASSWORD);
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 listPayments.add(new Payment(resultSet.getString(2), resultSet.getInt(3)));
                 i++;
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null)
+                    connection.close();
+                if (preparedStatement != null)
+                    preparedStatement.close();
+                if (resultSet != null)
+                    preparedStatement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         logger.info(i + " Rows were readed");
         return listPayments;
